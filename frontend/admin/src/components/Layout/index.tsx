@@ -10,6 +10,7 @@ import {
   SafetyOutlined,
   FileTextOutlined,
   LogoutOutlined,
+  SettingOutlined,
 } from '@ant-design/icons';
 import type { MenuProps } from 'antd';
 import { useAuthStore } from '@/store/auth';
@@ -71,6 +72,11 @@ export function AppLayout(): ReactElement {
       key: '/audit',
       icon: <FileTextOutlined />,
       label: '审计日志',
+    },
+    {
+      key: '/settings',
+      icon: <SettingOutlined />,
+      label: '系统设置',
     },
   ];
 
