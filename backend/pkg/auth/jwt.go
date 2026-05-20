@@ -3,6 +3,7 @@ package auth
 import (
 	"errors"
 	"time"
+	"net/http"
 
 	"github.com/gin-gonic/gin"
 	"github.com/golang-jwt/jwt/v5"
@@ -301,4 +302,32 @@ func ExtractToken(ctx *gin.Context) string {
 	}
 
 	return ""
+}
+
+
+// RequirePermission 返回要求指定权限的中间件
+func RequirePermission(requiredPermission string) gin.HandlerFunc {
+	return func(c *gin.Context) {
+		roles, exists := c.Get("roles")
+		if !exists {
+			c.JSON(http.StatusForbidden, gin.H{
+				"code":    403,
+				"message": "无法获取用户权限",
+			})
+			c.Abort()
+			return
+		}
+
+		userRoles, ok := roles.([]string)
+		if !ok || !HasPermission(userRoles, requiredPermission) {
+			c.JSON(http.StatusForbidden, gin.H{
+				"code":    403,
+				"message": "权限不足",
+			})
+			c.Abort()
+			return
+		}
+
+		c.Next()
+	}
 }

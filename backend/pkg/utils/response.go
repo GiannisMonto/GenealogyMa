@@ -39,6 +39,15 @@ func SuccessWithMessage(c *gin.Context, message string, data interface{}) {
 	})
 }
 
+// SuccessWithStatus 带状态码的成功响应
+func SuccessWithStatus(c *gin.Context, statusCode int, data interface{}) {
+	c.JSON(statusCode, Response{
+		Code:    0,
+		Message: "success",
+		Data:    data,
+	})
+}
+
 // SuccessWithPage 分页成功响应
 func SuccessWithPage(c *gin.Context, data interface{}, total int64) {
 	c.JSON(http.StatusOK, Response{

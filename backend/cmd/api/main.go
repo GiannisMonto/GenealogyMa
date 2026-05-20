@@ -111,6 +111,7 @@ func main() {
 	userRepo := persistence.NewUserRepository(db.DB)
 	userService := service.NewUserService(userRepo, jwtService)
 	authController := controller.NewAuthController(userService, tokenBlacklist)
+	rbacController := controller.NewRBACController(userService)
 
 	// ===== 路由设置 =====
 	authMiddleware := middleware.JWTAuth(jwtService)
