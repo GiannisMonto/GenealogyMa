@@ -48,8 +48,9 @@
 | T-DC1 | Cemetery 领域模块 | 2026-05-21 | Claude Code | 2h | - | entity、repository、service、单元测试 |
 | T-DC2 | Culture 领域模块 | 2026-05-21 | Claude Code | 2h | - | entity、repository、service、单元测试 |
 | T-DC3 | Community 领域模块 | 2026-05-21 | Claude Code | 2h | - | entity、repository、service、单元测试 |
+| T-DC4 | Audit 领域模块 | 2026-05-21 | Claude Code | 1h | - | entity、repository、service、单元测试，6 个测试全部通过 |
 
-| **已完成总计** | **28** 个任务，约 44.5 工时 |
+| **已完成总计** | **29** 个任务，约 45.5 工时 |
 
 ---
 
@@ -100,6 +101,7 @@
 | 2026-05-21 | 完成 Cemetery 领域模块（entity、repository、service、单元测试），14 个测试全部通过 | Claude Code |
 | 2026-05-21 | 完成 Culture 领域模块（entity、repository、service、单元测试），12 个测试全部通过 | Claude Code |
 | 2026-05-21 | 完成 Community 领域模块（entity、repository、service、单元测试），13 个测试全部通过 | Claude Code |
+| 2026-05-21 | 完成 Audit 领域模块（entity、repository、service、单元测试），6 个测试全部通过 | Claude Code |
 
 ---
 
