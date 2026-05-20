@@ -45,13 +45,14 @@
 | T019 | 人物表单编辑页面 | 2026-05-21 | Claude Code | 2h | T009, T010 | 创建/编辑人物、亲属选择、表单验证 |
 | T020 | Members 页面单元测试 | 2026-05-21 | Claude Code | 1h | T013 | Members.test.tsx 修复 act() 包装问题 |
 | T021 | Roles 页面单元测试 | 2026-05-21 | Claude Code | 1h | T-051 | Roles.test.tsx 角色管理页面单元测试，6 个测试全部通过 |
+| T022 | Users 页面实现与测试 | 2026-05-21 | Claude Code | 1h | T005 | 用户管理页面 + 单元测试，6 个测试全部通过 |
 
 | T-DC1 | Cemetery 领域模块 | 2026-05-21 | Claude Code | 2h | - | entity、repository、service、单元测试 |
 | T-DC2 | Culture 领域模块 | 2026-05-21 | Claude Code | 2h | - | entity、repository、service、单元测试 |
 | T-DC3 | Community 领域模块 | 2026-05-21 | Claude Code | 2h | - | entity、repository、service、单元测试 |
 | T-DC4 | Audit 领域模块 | 2026-05-21 | Claude Code | 1h | - | entity、repository、service、单元测试，6 个测试全部通过 |
 
-| **已完成总计** | **31** 个任务，约 47.5 工时 |
+| **已完成总计** | **33** 个任务，约 49.5 工时 |
 
 ---
 

@@ -169,3 +169,48 @@ export interface PermissionDTO {
   description?: string;
   created_at: string;
 }
+
+/**
+ * 用户 DTO
+ */
+export interface UserDTO {
+  id: number;
+  username: string;
+  email: string;
+  display_name: string;
+  avatar_url: string;
+  status: 'active' | 'inactive' | 'banned';
+  last_login_at: string | null;
+  created_at: string;
+  updated_at: string;
+  roles?: RoleDTO[];
+}
+
+/**
+ * 创建用户请求
+ */
+export interface CreateUserRequest {
+  username: string;
+  email: string;
+  password: string;
+  display_name?: string;
+  role_ids?: number[];
+}
+
+/**
+ * 更新用户请求
+ */
+export interface UpdateUserRequest {
+  email?: string;
+  display_name?: string;
+  avatar_url?: string;
+  status?: 'active' | 'inactive' | 'banned';
+  role_ids?: number[];
+}
+
+/**
+ * 重置密码请求
+ */
+export interface ResetPasswordRequest {
+  new_password: string;
+}
