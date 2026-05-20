@@ -22,26 +22,13 @@
   color: #333;
 }
 
-.captchaRow {
-  display: flex;
-  gap: 8px;
-  align-items: center;
+.successContent {
+  text-align: center;
+  padding: 24px 0;
 }
 
-.captchaImage {
-  height: 40px;
-  width: 120px;
-  cursor: pointer;
-  border-radius: 4px;
-  border: 1px solid #d9d9d9;
-}
-
-.optionsRow {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-}
-
-.forgotLink {
+.backLogin {
+  text-align: center;
   font-size: 14px;
+  color: #666;
 }

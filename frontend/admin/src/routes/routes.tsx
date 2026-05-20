@@ -20,6 +20,12 @@ export const routes: RouteConfig[] = [
     meta: { requiresAuth: false },
   },
   {
+    path: '/forgot-password',
+    name: '忘记密码',
+    element: React.createElement(lazy(() => import('@/pages/ForgotPassword'))),
+    meta: { requiresAuth: false },
+  },
+  {
     path: '/',
     name: '控制台',
     element: React.createElement(lazy(() => import('@/pages/Dashboard'))),
