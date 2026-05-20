@@ -214,3 +214,42 @@ export interface UpdateUserRequest {
 export interface ResetPasswordRequest {
   new_password: string;
 }
+
+/**
+ * 墓园 DTO
+ */
+export interface CemeteryDTO {
+  id: number;
+  name: string;
+  description: string;
+  province: string;
+  city: string;
+  district: string;
+  address: string;
+  latitude: number;
+  longitude: number;
+  total_grave: number;
+  used_grave: number;
+  image_url: string;
+  created_at: string;
+  updated_at: string;
+}
+
+/**
+ * 墓位 DTO
+ */
+export interface GraveDTO {
+  id: number;
+  cemetery_id: number;
+  person_id: number | null;
+  section: string;
+  row: number;
+  number: number;
+  status: 'available' | 'occupied' | 'reserved';
+  buried_name: string;
+  buried_date: string | null;
+  buried_year: number | null;
+  note: string;
+  created_at: string;
+  updated_at: string;
+}

@@ -11,6 +11,7 @@ import {
   FileTextOutlined,
   LogoutOutlined,
   SettingOutlined,
+  BankOutlined,
 } from '@ant-design/icons';
 import type { MenuProps } from 'antd';
 import { useAuthStore } from '@/store/auth';
@@ -26,6 +27,7 @@ const iconMap: Record<string, ReactElement> = {
   UserOutlined: <UserOutlined />,
   SafetyOutlined: <SafetyOutlined />,
   FileTextOutlined: <FileTextOutlined />,
+  BankOutlined: <BankOutlined />,
 };
 
 export function AppLayout(): ReactElement {
@@ -77,6 +79,11 @@ export function AppLayout(): ReactElement {
       key: '/settings',
       icon: <SettingOutlined />,
       label: '系统设置',
+    },
+    {
+      key: '/cemetery',
+      icon: <BankOutlined />,
+      label: '墓园管理',
     },
   ];
 
