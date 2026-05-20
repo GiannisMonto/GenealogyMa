@@ -126,6 +126,7 @@
 
 | ID | 任务名称 | 完成日期 | 负责人 | 用时 | 备注 |
 |----|---------|----------|--------|------|------|
+| T-009 | RBAC 控制器测试 | 2026-05-21 | Claude Code | 1h | `rbac_controller_test.go` |
 | T-001 | 用户领域实体创建 | 2026-05-21 | Claude Code | 1h | `backend/internal/domain/user/entity.go` |
 | T-002 | 用户仓储接口与实现 | 2026-05-21 | Claude Code | 2h | `repository.go` + `user_repo.go` |
 | T-003 | 用户应用服务 | 2026-05-21 | Claude Code | 3h | `user_service.go` 注册、登录、角色管理 |
@@ -137,7 +138,7 @@
 | T002 | 初始化数据脚本 - 默认角色和管理员 | 2026-05-21 | Claude Code | 1h | `006_init_data.sql` + 迁移执行器 |
 | T-008 | 人物领域服务测试 | 2026-05-21 | Claude Code | 1h | `backend/internal/domain/person/service_test.go` |
 
-**已完成总计**: 10 个任务，约 15.5 工时
+| **已完成总计** | **11** 个任务，约 16.5 工时 |
 
 ---
 
