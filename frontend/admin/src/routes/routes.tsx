@@ -1,0 +1,85 @@
+import React, { ReactElement, lazy } from 'react';
+
+export interface RouteConfig {
+  path: string;
+  name: string;
+  element: ReactElement;
+  children?: RouteConfig[];
+  meta?: {
+    requiresAuth?: boolean;
+    permission?: string;
+    icon?: string;
+  };
+}
+
+export const routes: RouteConfig[] = [
+  {
+    path: '/login',
+    name: '登录',
+    element: React.createElement(lazy(() => import('@/pages/Login'))),
+    meta: { requiresAuth: false },
+  },
+  {
+    path: '/',
+    name: '控制台',
+    element: React.createElement(lazy(() => import('@/pages/Dashboard'))),
+    meta: { requiresAuth: true },
+  },
+  {
+    path: '/dashboard',
+    name: '仪表盘',
+    element: React.createElement(lazy(() => import('@/pages/Dashboard'))),
+    meta: { requiresAuth: true },
+  },
+  {
+    path: '/members',
+    name: '成员管理',
+    element: React.createElement(lazy(() => import('@/pages/Members'))),
+    meta: { requiresAuth: true, permission: 'person:read' },
+  },
+  {
+    path: '/members/:id',
+    name: '成员详情',
+    element: React.createElement(lazy(() => import('@/pages/Members/Detail'))),
+    meta: { requiresAuth: true, permission: 'person:read' },
+  },
+  {
+    path: '/users',
+    name: '用户管理',
+    element: React.createElement(lazy(() => import('@/pages/Users'))),
+    meta: { requiresAuth: true, permission: 'admin:user' },
+  },
+  {
+    path: '/roles',
+    name: '角色管理',
+    element: React.createElement(lazy(() => import('@/pages/Roles'))),
+    meta: { requiresAuth: true, permission: 'admin:role' },
+  },
+  {
+    path: '/audit',
+    name: '审计日志',
+    element: React.createElement(lazy(() => import('@/pages/Audit'))),
+    meta: { requiresAuth: true, permission: 'admin:audit' },
+  },
+  {
+    path: '*',
+    name: '404',
+    element: React.createElement(lazy(() => import('@/pages/Error/404'))),
+  },
+];
+
+export const getFlattenRoutes = (routeList: RouteConfig[]): RouteConfig[] => {
+  const result: RouteConfig[] = [];
+
+  const flatten = (routes: RouteConfig[]) => {
+    routes.forEach((route) => {
+      result.push(route);
+      if (route.children) {
+        flatten(route.children);
+      }
+    });
+  };
+
+  flatten(routeList);
+  return result;
+};

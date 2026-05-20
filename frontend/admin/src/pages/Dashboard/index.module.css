@@ -1,0 +1,19 @@
+.container {
+  padding: 24px;
+}
+
+.statCard {
+  text-align: center;
+  padding: 24px;
+}
+
+.statValue {
+  font-size: 32px;
+  font-weight: bold;
+}
+
+.statLabel {
+  font-size: 14px;
+  color: #666;
+  margin-top: 8px;
+}
