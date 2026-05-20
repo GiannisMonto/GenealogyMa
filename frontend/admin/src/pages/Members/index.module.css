@@ -12,3 +12,26 @@
 .filterCard {
   margin-bottom: 16px;
 }
+
+.loading {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 300px;
+}
+
+.error {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 16px;
+  padding: 48px;
+}
+
+.breadcrumb {
+  margin-bottom: 16px;
+}
+
+.card {
+  margin-bottom: 16px;
+}
