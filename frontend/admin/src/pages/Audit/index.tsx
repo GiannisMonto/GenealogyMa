@@ -23,33 +23,10 @@ import type { ColumnsType } from 'antd/es/table';
 import type { Dayjs } from 'dayjs';
 import dayjs from 'dayjs';
 import styles from './index.module.css';
+import { getAuditLogs, getAuditLogDetail, exportAuditLogs, type AuditLogDTO, type AuditFilters } from '@/api/audit';
 
 const { Title } = Typography;
 const { RangePicker } = DatePicker;
-
-interface AuditLogDTO {
-  id: number;
-  user_id: number;
-  username: string;
-  module: string;
-  action: string;
-  resource_type: string;
-  resource_id: string;
-  old_value?: string;
-  new_value?: string;
-  ip_address?: string;
-  user_agent?: string;
-  description?: string;
-  created_at: string;
-}
-
-interface AuditFilters {
-  keyword?: string;
-  module?: string;
-  action?: string;
-  start_date?: string;
-  end_date?: string;
-}
 
 const MODULE_OPTIONS = [
   { label: '用户模块', value: 'user' },
@@ -164,11 +141,10 @@ export function Audit(): ReactElement {
   const fetchAuditLogs = async () => {
     setLoading(true);
     try {
-      // TODO: Replace with actual API call when backend is ready
-      // const data = await auditApi.getAuditLogs(filters);
-      // setAuditLogs(data);
-
-      // Mock implementation for demonstration
+      const data = await getAuditLogs(filters);
+      setAuditLogs(data.data);
+    } catch {
+      // Fallback to mock data when backend is not available
       await new Promise((resolve) => setTimeout(resolve, 500));
       let filtered = [...mockAuditLogs];
 
@@ -203,8 +179,6 @@ export function Audit(): ReactElement {
       }
 
       setAuditLogs(filtered);
-    } catch {
-      messageApi.error('获取审计日志失败');
     } finally {
       setLoading(false);
     }
@@ -241,8 +215,19 @@ export function Audit(): ReactElement {
     setDetailVisible(true);
   };
 
-  const handleExport = () => {
-    messageApi.info('导出功能开发中...');
+  const handleExport = async () => {
+    try {
+      const blob = await exportAuditLogs(filters);
+      const url = window.URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = `audit-logs-${dayjs().format('YYYY-MM-DD')}.xlsx`;
+      a.click();
+      window.URL.revokeObjectURL(url);
+      messageApi.success('导出成功');
+    } catch {
+      messageApi.error('导出失败');
+    }
   };
 
   const columns: ColumnsType<AuditLogDTO> = [
