@@ -119,6 +119,13 @@ func main() {
 	cemeteryService := service.NewCemeteryService(cemeteryRepo, cemeteryGraveRepo)
 	cemeteryController := controller.NewCemeteryController(cemeteryService)
 
+	// 文化领域
+	documentRepo := persistence.NewDocumentRepository(db.DB)
+	storyRepo := persistence.NewStoryRepository(db.DB)
+	teachingsRepo := persistence.NewFamilyTeachingsRepository(db.DB)
+	cultureService := service.NewCultureService(documentRepo, storyRepo, teachingsRepo)
+	cultureController := controller.NewCultureController(cultureService)
+
 	// ===== 路由设置 =====
 	authMiddleware := middleware.JWTAuth(jwtService)
 
@@ -144,6 +151,9 @@ func main() {
 
 		// 注册墓园控制器路由
 		cemeteryController.RegisterRoutes(apiV1, authMiddleware)
+
+		// 注册文化控制器路由
+		cultureController.RegisterRoutes(apiV1, authMiddleware)
 	}
 
 	// 启动服务器
