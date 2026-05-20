@@ -49,7 +49,7 @@
 | T-DC2 | Culture 领域模块 | 2026-05-21 | Claude Code | 2h | - | entity、repository、service、单元测试 |
 | T-DC3 | Community 领域模块 | 2026-05-21 | Claude Code | 2h | - | entity、repository、service、单元测试 |
 
-| **已完成总计** | **27** 个任务，约 43.5 工时 |
+| **已完成总计** | **28** 个任务，约 44.5 工时 |
 
 ---
 
