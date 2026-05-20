@@ -44,13 +44,14 @@
 | T018 | 统计 API 封装 | 2026-05-21 | Claude Code | 1h | T009 | 统计数据接口封装 |
 | T019 | 人物表单编辑页面 | 2026-05-21 | Claude Code | 2h | T009, T010 | 创建/编辑人物、亲属选择、表单验证 |
 | T020 | Members 页面单元测试 | 2026-05-21 | Claude Code | 1h | T013 | Members.test.tsx 修复 act() 包装问题 |
+| T021 | Roles 页面单元测试 | 2026-05-21 | Claude Code | 1h | T-051 | Roles.test.tsx 角色管理页面单元测试，6 个测试全部通过 |
 
 | T-DC1 | Cemetery 领域模块 | 2026-05-21 | Claude Code | 2h | - | entity、repository、service、单元测试 |
 | T-DC2 | Culture 领域模块 | 2026-05-21 | Claude Code | 2h | - | entity、repository、service、单元测试 |
 | T-DC3 | Community 领域模块 | 2026-05-21 | Claude Code | 2h | - | entity、repository、service、单元测试 |
 | T-DC4 | Audit 领域模块 | 2026-05-21 | Claude Code | 1h | - | entity、repository、service、单元测试，6 个测试全部通过 |
 
-| **已完成总计** | **30** 个任务，约 46.5 工时 |
+| **已完成总计** | **31** 个任务，约 47.5 工时 |
 
 ---
 
@@ -103,6 +104,7 @@
 | 2026-05-21 | 完成 Community 领域模块（entity、repository、service、单元测试），13 个测试全部通过 | Claude Code |
 | 2026-05-21 | 完成 Audit 领域模块（entity、repository、service、单元测试），6 个测试全部通过 | Claude Code |
 | 2026-05-21 | 完成角色管理页面（T-051），包含角色列表、CRUD操作、权限分配功能 | Claude Code |
+| 2026-05-21 | 完成角色管理页面单元测试（T021），Roles.test.tsx，6 个测试全部通过 | Claude Code |
 
 ---
 
