@@ -86,6 +86,12 @@ export const routes: RouteConfig[] = [
     meta: { requiresAuth: true, permission: 'admin:settings' },
   },
   {
+    path: '/permissions',
+    name: '权限管理',
+    element: React.createElement(lazy(() => import('@/pages/Permissions'))),
+    meta: { requiresAuth: true, permission: 'admin:permission' },
+  },
+  {
     path: '*',
     name: '404',
     element: React.createElement(lazy(() => import('@/pages/Error/404'))),
