@@ -138,7 +138,9 @@
 | T002 | 初始化数据脚本 - 默认角色和管理员 | 2026-05-21 | Claude Code | 1h | `006_init_data.sql` + 迁移执行器 |
 | T-008 | 人物领域服务测试 | 2026-05-21 | Claude Code | 1h | `backend/internal/domain/person/service_test.go` |
 
-| **已完成总计** | **11** 个任务，约 16.5 工时 |
+| T017 | 人物 API 封装 | 2026-05-21 | Claude Code | 2h | T009 | `frontend/shared/src/api/person.ts` |
+
+| **已完成总计** | **12** 个任务，约 18.5 工时 |
 
 ---
 
@@ -177,6 +179,7 @@
 | 2026-05-21 | 完成数据库迁移脚本与初始化数据脚本（T001, T002） | Claude Code |
 | 2026-05-21 | 新增阶段七（可视化前端）和阶段八（微信小程序）开发任务 | Claude Code |
 | 2026-05-21 | 新增人物领域服务测试（service_test.go），完成实体和服务测试 | Claude Code |
+| 2026-05-21 | 完成人物 API 封装（T017），包含 TypeScript 客户端和单元测试 | Claude Code |
 
 ---
 
