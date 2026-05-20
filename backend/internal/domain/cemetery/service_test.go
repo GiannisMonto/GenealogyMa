@@ -134,6 +134,15 @@ func (m *MockGraveRepository) Delete(ctx context.Context, id int64) error {
 	return nil
 }
 
+func (m *MockGraveRepository) DeleteByCemeteryID(ctx context.Context, cemeteryID int64) error {
+	for id, g := range m.graves {
+		if g.CemeteryID == cemeteryID {
+			delete(m.graves, id)
+		}
+	}
+	return nil
+}
+
 func (m *MockGraveRepository) Search(ctx context.Context, query *GraveSearchQuery) ([]*Grave, int64, error) {
 	result := make([]*Grave, 0)
 	for _, g := range m.graves {
@@ -427,7 +436,8 @@ func TestService_UpdateCemetery(t *testing.T) {
 
 func TestService_DeleteCemetery(t *testing.T) {
 	repo := NewMockRepository()
-	svc := NewService(repo, nil)
+	graveRepo := NewMockGraveRepository()
+	svc := NewService(repo, graveRepo)
 
 	// 创建墓园
 	cemetery := &Cemetery{

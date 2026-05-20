@@ -51,6 +51,10 @@ func (s *Service) DeleteCemetery(ctx context.Context, id int64) error {
 	if existing == nil {
 		return fmt.Errorf("cemetery not found")
 	}
+	// Delete all graves in this cemetery first
+	if err := s.graveRepo.DeleteByCemeteryID(ctx, id); err != nil {
+		return err
+	}
 	return s.repo.Delete(ctx, id)
 }
 
@@ -135,4 +139,21 @@ func (s *Service) ListGravesByCemetery(ctx context.Context, cemeteryID int64) ([
 // SearchGraves 搜索墓位
 func (s *Service) SearchGraves(ctx context.Context, query *GraveSearchQuery) ([]*Grave, int64, error) {
 	return s.graveRepo.Search(ctx, query)
+}
+
+// DeleteGrave 删除墓位
+func (s *Service) DeleteGrave(ctx context.Context, id int64) error {
+	existing, err := s.graveRepo.FindByID(ctx, id)
+	if err != nil {
+		return err
+	}
+	if existing == nil {
+		return fmt.Errorf("grave not found")
+	}
+	return s.graveRepo.Delete(ctx, id)
+}
+
+// DeleteGravesByCemetery 删除墓园下所有墓位
+func (s *Service) DeleteGravesByCemetery(ctx context.Context, cemeteryID int64) error {
+	return s.graveRepo.DeleteByCemeteryID(ctx, cemeteryID)
 }

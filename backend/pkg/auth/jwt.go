@@ -21,13 +21,15 @@ const (
 
 // 权限常量
 const (
-	PermissionPersonRead   = "person:read"
-	PermissionPersonWrite  = "person:write"
-	PermissionPersonDelete = "person:delete"
-	PermissionPersonImport = "person:import"
-	PermissionCultureRead  = "culture:read"
-	PermissionCultureWrite = "culture:write"
-	PermissionRoleRead     = "role:read"
+	PermissionPersonRead    = "person:read"
+	PermissionPersonWrite   = "person:write"
+	PermissionPersonDelete  = "person:delete"
+	PermissionPersonImport  = "person:import"
+	PermissionCultureRead   = "culture:read"
+	PermissionCultureWrite  = "culture:write"
+	PermissionGenealogyRead = "genealogy:read"
+	PermissionGenealogyWrite = "genealogy:write"
+	PermissionRoleRead      = "role:read"
 	PermissionRoleWrite    = "role:write"
 	PermissionRoleDelete   = "role:delete"
 	PermissionPermRead     = "permission:read"
@@ -116,12 +118,14 @@ var rolePermissions = map[string][]string{
 	RoleSuperAdmin: {
 		PermissionPersonRead, PermissionPersonWrite, PermissionPersonDelete, PermissionPersonImport,
 		PermissionCultureRead, PermissionCultureWrite,
+		PermissionGenealogyRead, PermissionGenealogyWrite,
 		PermissionRoleRead, PermissionRoleWrite, PermissionRoleDelete,
 		PermissionPermRead, PermissionPermWrite, PermissionPermDelete,
 		PermissionAdminUser, PermissionAdminConfig,
 	},
 	RoleGenealogyAdmin: {
 		PermissionPersonRead, PermissionPersonWrite, PermissionPersonDelete, PermissionPersonImport,
+		PermissionGenealogyRead, PermissionGenealogyWrite,
 	},
 	RoleCultureAdmin: {
 		PermissionCultureRead, PermissionCultureWrite,

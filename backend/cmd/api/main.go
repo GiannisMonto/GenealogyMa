@@ -113,6 +113,12 @@ func main() {
 	authController := controller.NewAuthController(userService, tokenBlacklist)
 	rbacController := controller.NewRBACController(userService)
 
+	// 墓园领域
+	cemeteryRepo := persistence.NewCemeteryRepository(db.DB)
+	cemeteryGraveRepo := persistence.NewGraveRepository(db.DB)
+	cemeteryService := service.NewCemeteryService(cemeteryRepo, cemeteryGraveRepo)
+	cemeteryController := controller.NewCemeteryController(cemeteryService)
+
 	// ===== 路由设置 =====
 	authMiddleware := middleware.JWTAuth(jwtService)
 
@@ -135,6 +141,9 @@ func main() {
 
 		// 注册角色权限管理控制器路由
 		rbacController.RegisterRoutes(apiV1, authMiddleware)
+
+		// 注册墓园控制器路由
+		cemeteryController.RegisterRoutes(apiV1, authMiddleware)
 	}
 
 	// 启动服务器

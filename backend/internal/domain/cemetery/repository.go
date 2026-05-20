@@ -37,6 +37,7 @@ type GraveRepository interface {
 	Create(ctx context.Context, grave *Grave) error
 	Update(ctx context.Context, grave *Grave) error
 	Delete(ctx context.Context, id int64) error
+	DeleteByCemeteryID(ctx context.Context, cemeteryID int64) error
 	Search(ctx context.Context, query *GraveSearchQuery) ([]*Grave, int64, error)
 }
 
