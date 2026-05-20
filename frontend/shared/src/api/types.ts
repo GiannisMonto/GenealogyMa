@@ -144,3 +144,28 @@ export interface ApiResponse<T> {
   message: string;
   data: T;
 }
+
+/**
+ * 角色 DTO
+ */
+export interface RoleDTO {
+  id: number;
+  code: string;
+  name: string;
+  description?: string;
+  is_system: boolean;
+  created_at: string;
+  updated_at: string;
+}
+
+/**
+ * 权限 DTO
+ */
+export interface PermissionDTO {
+  id: number;
+  code: string;
+  name: string;
+  module: string;
+  description?: string;
+  created_at: string;
+}
