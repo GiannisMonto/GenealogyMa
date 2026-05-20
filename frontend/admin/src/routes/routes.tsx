@@ -50,6 +50,18 @@ export const routes: RouteConfig[] = [
     meta: { requiresAuth: true, permission: 'person:read' },
   },
   {
+    path: '/members/:id/edit',
+    name: '编辑成员',
+    element: React.createElement(lazy(() => import('@/pages/Members/Form'))),
+    meta: { requiresAuth: true, permission: 'person:write' },
+  },
+  {
+    path: '/members/new',
+    name: '新增成员',
+    element: React.createElement(lazy(() => import('@/pages/Members/Form'))),
+    meta: { requiresAuth: true, permission: 'person:write' },
+  },
+  {
     path: '/users',
     name: '用户管理',
     element: React.createElement(lazy(() => import('@/pages/Users'))),

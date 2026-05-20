@@ -1,6 +1,6 @@
 import { ReactElement, useEffect, useState } from 'react';
 import { Card, Descriptions, Tag, Typography, Spin, Button, Space, Row, Col, Table, Breadcrumb } from 'antd';
-import { UserOutlined, ArrowLeftOutlined, EditOutlined, ReloadOutlined } from '@ant-design/icons';
+import { UserOutlined, ArrowLeftOutlined, EditOutlined, ReloadOutlined, PlusOutlined } from '@ant-design/icons';
 import { useParams, useNavigate } from 'react-router-dom';
 import { personApi, type PersonDTO, type SpouseDTO, type ChildDTO } from '@shared/api/person';
 import styles from './index.module.css';
@@ -77,6 +77,7 @@ export function MembersDetail(): ReactElement {
       <div className={styles.header}>
         <Space>
           <Button icon={<ArrowLeftOutlined />} onClick={() => navigate('/members')}>返回</Button>
+          <Button icon={<PlusOutlined />} onClick={() => navigate('/members/new')}>新增</Button>
           <Button icon={<EditOutlined />} onClick={() => navigate(`/members/${id}/edit`)}>编辑</Button>
           <Button icon={<ReloadOutlined />} onClick={() => fetchPerson()}>刷新</Button>
         </Space>
