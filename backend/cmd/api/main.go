@@ -60,6 +60,13 @@ func main() {
 	defer db.Close()
 	log.Println("Database connected successfully")
 
+	// 执行数据库迁移
+	migrator := persistence.NewMigrator(db.DB)
+	if err := migrator.Run(); err != nil {
+		log.Fatalf("Failed to run migrations: %v", err)
+	}
+	log.Println("Database migrations completed successfully")
+
 	// 初始化Redis
 	redisCache, err := cache.NewRedisCache(&cfg.Redis)
 	if err != nil {
@@ -75,6 +82,8 @@ func main() {
 		cfg.JWT.ExpireHours,
 		cfg.JWT.RefreshExpireHours,
 	)
+	// 设置全局JWT服务实例
+	auth.SetGlobalJWTService(jwtService)
 
 	// 创建Gin引擎
 	r := gin.New()
@@ -87,10 +96,21 @@ func main() {
 
 	// ===== 初始化仓储和服务 =====
 
+	// 令牌黑名单服务
+	var tokenBlacklist *cache.TokenBlacklist
+	if redisCache != nil {
+		tokenBlacklist = cache.NewTokenBlacklist(redisCache.Client())
+	}
+
 	// 人物领域
 	personRepo := persistence.NewPersonRepository(db.DB)
 	personService := service.NewPersonService(personRepo)
 	personController := controller.NewPersonController(personService)
+
+	// 用户领域
+	userRepo := persistence.NewUserRepository(db.DB)
+	userService := service.NewUserService(userRepo, jwtService)
+	authController := controller.NewAuthController(userService, tokenBlacklist)
 
 	// ===== 路由设置 =====
 	authMiddleware := middleware.JWTAuth(jwtService)
@@ -98,17 +118,6 @@ func main() {
 	// API路由组
 	apiV1 := r.Group("/api/v1")
 	{
-		// 公开路由
-		authGroup := apiV1.Group("/auth")
-		{
-			authGroup.POST("/login", func(c *gin.Context) {
-				c.JSON(200, gin.H{"message": "login endpoint"})
-			})
-			authGroup.POST("/register", func(c *gin.Context) {
-				c.JSON(200, gin.H{"message": "register endpoint"})
-			})
-		}
-
 		// 健康检查
 		apiV1.GET("/health", func(c *gin.Context) {
 			c.JSON(200, gin.H{
@@ -117,8 +126,14 @@ func main() {
 			})
 		})
 
+		// 注册认证控制器路由（包含登录、注册、用户管理等）
+		authController.RegisterRoutes(apiV1, authMiddleware)
+
 		// 注册人物控制器路由
 		personController.RegisterRoutes(apiV1, authMiddleware)
+
+		// 注册角色权限管理控制器路由
+		rbacController.RegisterRoutes(apiV1, authMiddleware)
 	}
 
 	// 启动服务器

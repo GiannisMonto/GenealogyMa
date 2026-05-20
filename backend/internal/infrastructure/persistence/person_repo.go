@@ -2,7 +2,6 @@ package persistence
 
 import (
 	"context"
-	"strings"
 	"time"
 
 	"github.com/genealogy-ma/platform/internal/domain/person"

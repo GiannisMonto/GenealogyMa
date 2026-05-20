@@ -4,6 +4,7 @@ import (
 	"errors"
 	"time"
 
+	"github.com/gin-gonic/gin"
 	"github.com/golang-jwt/jwt/v5"
 )
 
@@ -25,6 +26,12 @@ const (
 	PermissionPersonImport = "person:import"
 	PermissionCultureRead  = "culture:read"
 	PermissionCultureWrite = "culture:write"
+	PermissionRoleRead     = "role:read"
+	PermissionRoleWrite    = "role:write"
+	PermissionRoleDelete   = "role:delete"
+	PermissionPermRead     = "permission:read"
+	PermissionPermWrite    = "permission:write"
+	PermissionPermDelete   = "permission:delete"
 	PermissionAdminUser    = "admin:user"
 	PermissionAdminConfig  = "admin:config"
 )
@@ -108,6 +115,8 @@ var rolePermissions = map[string][]string{
 	RoleSuperAdmin: {
 		PermissionPersonRead, PermissionPersonWrite, PermissionPersonDelete, PermissionPersonImport,
 		PermissionCultureRead, PermissionCultureWrite,
+		PermissionRoleRead, PermissionRoleWrite, PermissionRoleDelete,
+		PermissionPermRead, PermissionPermWrite, PermissionPermDelete,
 		PermissionAdminUser, PermissionAdminConfig,
 	},
 	RoleGenealogyAdmin: {
@@ -154,4 +163,142 @@ func HasPermission(userRoles []string, requiredPermission string) bool {
 // IsSuperAdmin 检查是否超级管理员
 func IsSuperAdmin(userRoles []string) bool {
 	return HasRole(userRoles, RoleSuperAdmin)
+}
+
+// ===== 全局实例和辅助函数 =====
+
+var globalJWTService *JWTService
+
+// SetGlobalJWTService 设置全局JWT服务实例
+func SetGlobalJWTService(service *JWTService) {
+	globalJWTService = service
+}
+
+// GenerateToken 生成访问令牌（全局函数）
+func GenerateToken(userID int64, username string, roles []string) (string, error) {
+	if globalJWTService == nil {
+		return "", nil
+	}
+	return globalJWTService.GenerateToken(userID, username, roles)
+}
+
+// GenerateRefreshToken 生成刷新令牌（全局函数）
+func GenerateRefreshToken(userID int64) (string, error) {
+	if globalJWTService == nil {
+		return "", nil
+	}
+	return globalJWTService.GenerateRefreshToken(userID)
+}
+
+// ParseToken 解析令牌（全局函数）
+func ParseToken(tokenString string) (*Claims, error) {
+	if globalJWTService == nil {
+		return nil, nil
+	}
+	return globalJWTService.ParseToken(tokenString)
+}
+
+// RefreshClaims 刷新令牌声明
+type RefreshClaims struct {
+	UserID int64 `json:"user_id"`
+	jwt.RegisteredClaims
+}
+
+// ParseRefreshToken 解析刷新令牌
+func ParseRefreshToken(tokenString string) (*RefreshClaims, error) {
+	if globalJWTService == nil {
+		return nil, nil
+	}
+
+	token, err := jwt.ParseWithClaims(tokenString, &RefreshClaims{}, func(token *jwt.Token) (interface{}, error) {
+		if _, ok := token.Method.(*jwt.SigningMethodHMAC); !ok {
+			return nil, nil
+		}
+		return globalJWTService.secret, nil
+	})
+
+	if err != nil {
+		return nil, err
+	}
+
+	if claims, ok := token.Claims.(*RefreshClaims); ok && token.Valid {
+		return claims, nil
+	}
+
+	return nil, nil
+}
+
+// ===== Gin 上下文辅助函数 =====
+
+// userContextKey 用户信息在 Gin 上下文中的键
+type userContextKey string
+
+const (
+	userIDKey     userContextKey = "user_id"
+	usernameKey   userContextKey = "username"
+	userRolesKey  userContextKey = "roles"
+)
+
+// SetUserToContext 将用户信息设置到 Gin 上下文
+func SetUserToContext(ctx *gin.Context, userID int64, username string, roles []string) {
+	ctx.Set(string(userIDKey), userID)
+	ctx.Set(string(usernameKey), username)
+	ctx.Set(string(userRolesKey), roles)
+}
+
+// GetUserID 从上下文中获取用户ID
+func GetUserID(ctx *gin.Context) int64 {
+	value, exists := ctx.Get(string(userIDKey))
+	if !exists {
+		return 0
+	}
+	if userID, ok := value.(int64); ok {
+		return userID
+	}
+	return 0
+}
+
+// GetUsername 从上下文中获取用户名
+func GetUsername(ctx *gin.Context) string {
+	value, exists := ctx.Get(string(usernameKey))
+	if !exists {
+		return ""
+	}
+	if username, ok := value.(string); ok {
+		return username
+	}
+	return ""
+}
+
+// GetUserRoles 从上下文中获取用户角色
+func GetUserRoles(ctx *gin.Context) []string {
+	value, exists := ctx.Get(string(userRolesKey))
+	if !exists {
+		return nil
+	}
+	if roles, ok := value.([]string); ok {
+		return roles
+	}
+	return nil
+}
+
+// ExtractToken 从请求中提取令牌
+func ExtractToken(ctx *gin.Context) string {
+	// 首先从 Authorization header 提取
+	authHeader := ctx.GetHeader("Authorization")
+	if len(authHeader) > 7 && authHeader[:7] == "Bearer " {
+		return authHeader[7:]
+	}
+
+	// 其次从 query 参数提取
+	if token := ctx.Query("token"); token != "" {
+		return token
+	}
+
+	// 最后从 cookie 提取
+	if token, err := ctx.Cookie("access_token"); err == nil {
+		return token
+	}
+
+	return ""
 }
