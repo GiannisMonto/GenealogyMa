@@ -37,6 +37,8 @@ const (
 	PermissionPermDelete   = "permission:delete"
 	PermissionAdminUser    = "admin:user"
 	PermissionAdminConfig  = "admin:config"
+	PermissionCommunityRead  = "community:read"
+	PermissionCommunityWrite = "community:write"
 )
 
 // Claims JWT载荷
@@ -119,6 +121,7 @@ var rolePermissions = map[string][]string{
 		PermissionPersonRead, PermissionPersonWrite, PermissionPersonDelete, PermissionPersonImport,
 		PermissionCultureRead, PermissionCultureWrite,
 		PermissionGenealogyRead, PermissionGenealogyWrite,
+		PermissionCommunityRead, PermissionCommunityWrite,
 		PermissionRoleRead, PermissionRoleWrite, PermissionRoleDelete,
 		PermissionPermRead, PermissionPermWrite, PermissionPermDelete,
 		PermissionAdminUser, PermissionAdminConfig,
@@ -135,9 +138,11 @@ var rolePermissions = map[string][]string{
 	},
 	RoleVerifiedUser: {
 		PermissionPersonRead, PermissionCultureRead,
+		PermissionCommunityRead, PermissionCommunityWrite,
 	},
 	RoleGuest: {
 		PermissionPersonRead,
+		PermissionCommunityRead,
 	},
 }
 

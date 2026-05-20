@@ -126,6 +126,14 @@ func main() {
 	cultureService := service.NewCultureService(documentRepo, storyRepo, teachingsRepo)
 	cultureController := controller.NewCultureController(cultureService)
 
+	// 社区领域
+	userProfileRepo := persistence.NewUserProfileRepository(db.DB)
+	postRepo := persistence.NewPostRepository(db.DB)
+	commentRepo := persistence.NewCommentRepository(db.DB)
+	messageRepo := persistence.NewMessageRepository(db.DB)
+	communityService := service.NewCommunityService(userProfileRepo, postRepo, commentRepo, messageRepo)
+	communityController := controller.NewCommunityController(communityService)
+
 	// ===== 路由设置 =====
 	authMiddleware := middleware.JWTAuth(jwtService)
 
@@ -154,6 +162,9 @@ func main() {
 
 		// 注册文化控制器路由
 		cultureController.RegisterRoutes(apiV1, authMiddleware)
+
+		// 注册社区控制器路由
+		communityController.RegisterRoutes(apiV1, authMiddleware)
 	}
 
 	// 启动服务器
