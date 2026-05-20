@@ -1,0 +1,179 @@
+# ===================================
+# 族谱数字化管理平台 - Git Ignore
+# ===================================
+
+# ===== 操作系统文件 =====
+# Windows
+Thumbs.db
+ehthumbs.db
+Desktop.ini
+$RECYCLE.BIN/
+*.cab
+*.msi
+*.msix
+*.msm
+*.msp
+*.lnk
+
+# macOS
+.DS_Store
+.AppleDouble
+.LSOverride
+._*
+.DocumentRevisions-V100
+.fseventsd
+.Spotlight-V100
+.TemporaryItems
+.Trashes
+.VolumeIcon.icns
+.com.apple.timemachine.donotpresent
+
+# Linux
+*~
+
+# ===== IDE 和编辑器 =====
+# VSCode
+.vscode/
+!.vscode/extensions.json
+!.vscode/settings.json
+*.code-workspace
+
+# JetBrains (GoLand, WebStorm, etc.)
+.idea/
+*.iml
+*.iws
+*.ipr
+out/
+.idea_modules/
+
+# Vim/Neovim
+*.swp
+*.swo
+*.swn
+*~
+.vim
+.viminfo
+
+# Emacs
+*~
+\#*\#
+/.emacs.desktop
+/.emacs.desktop.lock
+*.elc
+auto-save-list
+tramp
+.\#*
+
+# ===== 后端 Go =====
+backend/*.exe
+backend/*.exe~
+backend/*.dll
+backend/*.so
+backend/*.dylib
+backend/*.test
+backend/*.out
+backend/go.work
+backend/go.sum
+backend/vendor/
+backend/dist/
+backend/bin/
+backend/tmp/
+backend/temp/
+backend/logs/
+backend/*.log
+
+# ===== 前端 Node.js 通用 =====
+node_modules/
+dist/
+build/
+.output/
+.nuxt/
+.next/
+.cache/
+.parcel-cache/
+.eslintcache
+.stylelintcache
+*.tsbuildinfo
+.pnp
+.pnp.js
+.yarn/install-state.gz
+.vercel
+.netlify
+
+# ===== 前端 - 管理后台 (React) =====
+frontend/admin/node_modules/
+frontend/admin/build/
+frontend/admin/dist/
+frontend/admin/.env.local
+frontend/admin/.env.development.local
+frontend/admin/.env.test.local
+frontend/admin/.env.production.local
+frontend/admin/coverage/
+frontend/admin/coverage-ts/
+
+# ===== 前端 - 可视化端 (Vue) =====
+frontend/visualization/node_modules/
+frontend/visualization/dist/
+frontend/visualization/.env.local
+frontend/visualization/.env.*.local
+frontend/visualization/coverage/
+frontend/visualization/tsconfig.tsbuildinfo
+
+# ===== 前端共享 =====
+frontend/shared/node_modules/
+frontend/shared/dist/
+
+# ===== 微信小程序 =====
+mobile/miniprogram/node_modules/
+mobile/miniprogram/dist/
+mobile/miniprogram/miniprogram_npm/
+mobile/miniprogram/project.private.config.json
+mobile/miniprogram/sitemap.json
+
+# ===== 数据库 =====
+*.sql
+*.dump
+*.db
+*.sqlite
+*.sqlite3
+postgres/data/
+redis/data/
+
+# ===== 环境变量 =====
+.env
+.env.local
+.env.*.local
+!.env.example
+
+# ===== 部署和Docker =====
+docker-compose.override.yml
+deployments/.env
+*.pid
+*.sock
+
+# ===== 测试和覆盖率 =====
+coverage/
+.nyc_output/
+.coverage
+*.lcov
+junit.xml
+
+# ===== 其他 =====
+*.bak
+*.tmp
+*.cache
+*.old
+backup/
+archives/
+uploads/
+static/uploads/
+
+# ===== 临时文件 =====
+tmp/
+temp/
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+lerna-debug.log*

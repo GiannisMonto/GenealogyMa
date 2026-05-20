@@ -1,0 +1,153 @@
+package main
+
+import (
+	"context"
+	"fmt"
+	"log"
+	"net/http"
+	"os"
+	"os/signal"
+	"syscall"
+	"time"
+
+	"github.com/genealogy-ma/platform/internal/application/service"
+	"github.com/genealogy-ma/platform/internal/infrastructure/cache"
+	"github.com/genealogy-ma/platform/internal/infrastructure/config"
+	"github.com/genealogy-ma/platform/internal/infrastructure/persistence"
+	"github.com/genealogy-ma/platform/internal/interfaces/http/controller"
+	"github.com/genealogy-ma/platform/internal/interfaces/http/middleware"
+	"github.com/genealogy-ma/platform/pkg/auth"
+	"github.com/gin-gonic/gin"
+	swaggerFiles "github.com/swaggo/files"
+	ginSwagger "github.com/swaggo/gin-swagger"
+)
+
+// @title 族谱数字化管理平台 API
+// @version 1.0
+// @description 族谱数字化管理平台后端API接口文档
+// @termsOfService http://swagger.io/terms/
+
+// @contact.name API Support
+// @contact.url http://www.swagger.io/support
+// @contact.email support@swagger.io
+
+// @license.name Apache 2.0
+// @license.url http://www.apache.org/licenses/LICENSE-2.0.html
+
+// @host localhost:8080
+// @BasePath /api/v1
+// @schemes http https
+
+// @securityDefinitions.apikey BearerAuth
+// @in header
+// @name Authorization
+// @description Type "Bearer" followed by a space and JWT token.
+func main() {
+	// 加载配置
+	cfg, err := config.Load()
+	if err != nil {
+		log.Fatalf("Failed to load config: %v", err)
+	}
+
+	// 设置Gin模式
+	gin.SetMode(cfg.Server.Mode)
+
+	// 初始化数据库
+	db, err := persistence.NewDatabase(&cfg.Postgres)
+	if err != nil {
+		log.Fatalf("Failed to connect database: %v", err)
+	}
+	defer db.Close()
+	log.Println("Database connected successfully")
+
+	// 初始化Redis
+	redisCache, err := cache.NewRedisCache(&cfg.Redis)
+	if err != nil {
+		log.Printf("Warning: Failed to connect Redis: %v", err)
+	} else {
+		defer redisCache.Close()
+		log.Println("Redis connected successfully")
+	}
+
+	// 初始化JWT服务
+	jwtService := auth.NewJWTService(
+		cfg.JWT.Secret,
+		cfg.JWT.ExpireHours,
+		cfg.JWT.RefreshExpireHours,
+	)
+
+	// 创建Gin引擎
+	r := gin.New()
+	r.Use(gin.Logger())
+	r.Use(gin.Recovery())
+	r.Use(middleware.CORS())
+
+	// Swagger文档
+	r.GET("/swagger/*any", ginSwagger.WrapHandler(swaggerFiles.Handler))
+
+	// ===== 初始化仓储和服务 =====
+
+	// 人物领域
+	personRepo := persistence.NewPersonRepository(db.DB)
+	personService := service.NewPersonService(personRepo)
+	personController := controller.NewPersonController(personService)
+
+	// ===== 路由设置 =====
+	authMiddleware := middleware.JWTAuth(jwtService)
+
+	// API路由组
+	apiV1 := r.Group("/api/v1")
+	{
+		// 公开路由
+		authGroup := apiV1.Group("/auth")
+		{
+			authGroup.POST("/login", func(c *gin.Context) {
+				c.JSON(200, gin.H{"message": "login endpoint"})
+			})
+			authGroup.POST("/register", func(c *gin.Context) {
+				c.JSON(200, gin.H{"message": "register endpoint"})
+			})
+		}
+
+		// 健康检查
+		apiV1.GET("/health", func(c *gin.Context) {
+			c.JSON(200, gin.H{
+				"status": "ok",
+				"time":   time.Now().Format(time.RFC3339),
+			})
+		})
+
+		// 注册人物控制器路由
+		personController.RegisterRoutes(apiV1, authMiddleware)
+	}
+
+	// 启动服务器
+	addr := fmt.Sprintf("%s:%s", cfg.Server.Host, cfg.Server.Port)
+	srv := &http.Server{
+		Addr:    addr,
+		Handler: r,
+	}
+
+	// 优雅关闭
+	go func() {
+		log.Printf("Server starting on %s", addr)
+		if err := srv.ListenAndServe(); err != nil && err != http.ErrServerClosed {
+			log.Fatalf("Failed to start server: %v", err)
+		}
+	}()
+
+	// 等待中断信号
+	quit := make(chan os.Signal, 1)
+	signal.Notify(quit, syscall.SIGINT, syscall.SIGTERM)
+	<-quit
+	log.Println("Shutting down server...")
+
+	// 5秒超时关闭
+	ctx, cancel := context.WithTimeout(context.Background(), 5*time.Second)
+	defer cancel()
+	if err := srv.Shutdown(ctx); err != nil {
+		log.Fatal("Server forced to shutdown:", err)
+	}
+
+	log.Println("Server exited")
+}

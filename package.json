@@ -1,0 +1,50 @@
+{
+  "name": "genealogy-ma",
+  "version": "1.0.0",
+  "description": "族谱数字化管理平台",
+  "private": true,
+  "workspaces": [
+    "frontend/*",
+    "mobile/*"
+  ],
+  "scripts": {
+    "dev:backend": "cd backend && go run cmd/api/main.go",
+    "dev:admin": "cd frontend/admin && npm run dev",
+    "dev:visualization": "cd frontend/visualization && npm run dev",
+    "dev": "concurrently \"npm run dev:backend\" \"npm run dev:visualization\"",
+    "build:backend": "cd backend && go build -o bin/api cmd/api/main.go",
+    "build:admin": "cd frontend/admin && npm run build",
+    "build:visualization": "cd frontend/visualization && npm run build",
+    "build": "npm run build:backend && npm run build:visualization",
+    "lint:backend": "cd backend && golangci-lint run",
+    "lint:frontend": "cd frontend/visualization && npm run lint",
+    "lint": "npm run lint:backend && npm run lint:frontend",
+    "test:backend": "cd backend && go test ./... -v",
+    "test:frontend": "cd frontend/visualization && npm run test",
+    "test": "npm run test:backend && npm run test:frontend",
+    "docker:up": "docker-compose up -d",
+    "docker:down": "docker-compose down",
+    "docker:build": "docker-compose build",
+    "db:migrate": "cd backend && go run cmd/migrate/main.go",
+    "prepare": "echo 'Git hooks configured'"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/your-org/genealogy-ma.git"
+  },
+  "keywords": [
+    "genealogy",
+    "family-tree",
+    "3d-visualization",
+    "ancestry"
+  ],
+  "author": "Genealogy Ma Team",
+  "license": "MIT",
+  "devDependencies": {
+    "concurrently": "^8.2.2"
+  },
+  "engines": {
+    "node": ">=18.0.0",
+    "npm": ">=9.0.0"
+  }
+}
