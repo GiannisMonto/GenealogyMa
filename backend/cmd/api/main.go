@@ -134,6 +134,11 @@ func main() {
 	communityService := service.NewCommunityService(userProfileRepo, postRepo, commentRepo, messageRepo)
 	communityController := controller.NewCommunityController(communityService)
 
+	// 审计领域
+	auditRepo := persistence.NewAuditRepository(db.DB)
+	auditService := service.NewAuditService(auditRepo)
+	auditController := controller.NewAuditController(auditService)
+
 	// ===== 路由设置 =====
 	authMiddleware := middleware.JWTAuth(jwtService)
 
@@ -165,6 +170,9 @@ func main() {
 
 		// 注册社区控制器路由
 		communityController.RegisterRoutes(apiV1, authMiddleware)
+
+		// 注册审计控制器路由
+		auditController.RegisterRoutes(apiV1, authMiddleware)
 	}
 
 	// 启动服务器
