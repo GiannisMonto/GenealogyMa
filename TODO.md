@@ -43,6 +43,7 @@
 | T014 | 人物详情页面 | 2026-05-21 | Claude Code | 1h | T009, T013 | 详情展示、亲属关系卡片、生平信息 |
 | T018 | 统计 API 封装 | 2026-05-21 | Claude Code | 1h | T009 | 统计数据接口封装 |
 | T019 | 人物表单编辑页面 | 2026-05-21 | Claude Code | 2h | T009, T010 | 创建/编辑人物、亲属选择、表单验证 |
+| T020 | Members 页面单元测试 | 2026-05-21 | Claude Code | 1h | T013 | Members.test.tsx 修复 act() 包装问题 |
 
 | T-DC1 | Cemetery 领域模块 | 2026-05-21 | Claude Code | 2h | - | entity、repository、service、单元测试 |
 | T-DC2 | Culture 领域模块 | 2026-05-21 | Claude Code | 2h | - | entity、repository、service、单元测试 |

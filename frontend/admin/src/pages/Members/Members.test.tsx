@@ -1,5 +1,5 @@
 import { describe, it, expect, vi, beforeEach } from 'vitest';
-import { render, screen, waitFor } from '@testing-library/react';
+import { render, screen, waitFor, act } from '@testing-library/react';
 import { BrowserRouter } from 'react-router-dom';
 import { Members } from './index';
 
@@ -28,39 +28,47 @@ describe('Members', () => {
     vi.clearAllMocks();
   });
 
-  it('renders members page title', () => {
-    render(
-      <BrowserRouter>
-        <Members />
-      </BrowserRouter>
-    );
+  it('renders members page title', async () => {
+    await act(async () => {
+      render(
+        <BrowserRouter>
+          <Members />
+        </BrowserRouter>
+      );
+    });
     expect(screen.getByText('成员管理')).toBeInTheDocument();
   });
 
-  it('renders add member button', () => {
-    render(
-      <BrowserRouter>
-        <Members />
-      </BrowserRouter>
-    );
+  it('renders add member button', async () => {
+    await act(async () => {
+      render(
+        <BrowserRouter>
+          <Members />
+        </BrowserRouter>
+      );
+    });
     expect(screen.getByText('新增成员')).toBeInTheDocument();
   });
 
-  it('renders search input', () => {
-    render(
-      <BrowserRouter>
-        <Members />
-      </BrowserRouter>
-    );
+  it('renders search input', async () => {
+    await act(async () => {
+      render(
+        <BrowserRouter>
+          <Members />
+        </BrowserRouter>
+      );
+    });
     expect(screen.getByPlaceholderText('搜索姓名、字号...')).toBeInTheDocument();
   });
 
-  it('renders reset button', () => {
-    render(
-      <BrowserRouter>
-        <Members />
-      </BrowserRouter>
-    );
+  it('renders reset button', async () => {
+    await act(async () => {
+      render(
+        <BrowserRouter>
+          <Members />
+        </BrowserRouter>
+      );
+    });
     expect(screen.getByText('重置')).toBeInTheDocument();
   });
 });
