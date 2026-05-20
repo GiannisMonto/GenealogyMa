@@ -139,8 +139,10 @@
 | T017 | 人物 API 封装 | 2026-05-21 | Claude Code | 2h | T009 | `frontend/shared/src/api/person.ts` |
 | T003 | 权限管理 API 完善 | 2026-05-21 | Claude Code | 1h | T001 | `rbac_controller.go` 角色、权限完整 CRUD |
 | T004 | 管理后台项目初始化 | 2026-05-21 | Claude Code | 2h | - | Vite + React 18 + AntD 5 项目基础结构 |
+| T005 | 项目基础配置 | 2026-05-21 | Claude Code | 1h | T004 | ESLint、Prettier、构建配置 |
+| T006 | AntD 主题配置 | 2026-05-21 | Claude Code | 1h | T004 | 定制主题色、全局样式、布局样式 |
 
-| **已完成总计** | **14** 个任务，约 21.5 工时 |
+| **已完成总计** | **15** 个任务，约 22.5 工时 |
 
 ---
 
