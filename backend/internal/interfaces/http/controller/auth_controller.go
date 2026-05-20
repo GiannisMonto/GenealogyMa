@@ -58,13 +58,6 @@ func (c *AuthController) RegisterRoutes(r *gin.RouterGroup, authMiddleware gin.H
 		users.POST("/:id/roles", auth.RequirePermission(auth.PermissionAdminUser), c.AssignRole)
 		users.DELETE("/:id/roles/:role_code", auth.RequirePermission(auth.PermissionAdminUser), c.RemoveRole)
 	}
-
-	// 角色管理路由
-	roles := r.Group("/roles")
-	roles.Use(authMiddleware)
-	{
-		roles.GET("", auth.RequirePermission(auth.PermissionAdminUser), c.ListRoles)
-	}
 }
 
 // ===== 认证相关处理函数 =====
@@ -476,21 +469,4 @@ func (c *AuthController) RemoveRole(ctx *gin.Context) {
 	utils.Success(ctx, gin.H{"message": "角色移除成功"})
 }
 
-// ListRoles 获取角色列表
-// @Summary 获取所有角色
-// @Description 获取系统中的所有角色
-// @Tags 角色权限
-// @Accept json
-// @Produce json
-// @Security Bearer
-// @Success 200 {object} utils.Response{data=[]service.RoleDTO}
-// @Router /roles [get]
-func (c *AuthController) ListRoles(ctx *gin.Context) {
-	roles, err := c.userService.GetAllRoles(ctx)
-	if err != nil {
-		utils.Error(ctx, http.StatusInternalServerError, "获取角色列表失败")
-		return
-	}
 
-	utils.Success(ctx, roles)
-}
