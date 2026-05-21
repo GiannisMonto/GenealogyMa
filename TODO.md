@@ -179,6 +179,7 @@
 | 2026-05-21 | 完成 Memorial 应用服务测试（T-073），包含 memorial_service_test.go，20 个测试全部通过 | Claude Code |
 | 2026-05-21 | 完成 Config 应用服务测试（T-074），包含 config_service_test.go，26 个测试全部通过 | Claude Code |
 | 2026-05-21 | 完成 Backup API 控制器（T-083），包含 backup_controller.go + backup_controller_test.go，6 个测试全部通过 | Claude Code |
+| 2026-05-21 | 修复 CreateBackup 状态竞态问题（backup_service.go），测试全部通过 | Claude Code |
 | 2026-05-21 | 完成 Person 实体单元测试（T-084），包含 entity_test.go，常量验证、代际边界测试，4 个测试全部通过 | Claude Code |
 | 2026-05-21 | 完成 Culture 实体单元测试（T-DC2），包含 entity_test.go，常量验证、实体验证测试，25 个测试全部通过 | Claude Code |
 | 2026-05-21 | 完成 Memorial 管理页面（T-085），包含 Memorial 页面、API 客户端、单元测试，6 个测试全部通过 |
