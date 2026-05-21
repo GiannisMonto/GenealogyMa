@@ -98,8 +98,9 @@
 | T-087 | Audit 实体单元测试 | 2026-05-21 | Claude Code | 0.5h | - | `entity_test.go`，6 个测试全部通过 |
 | T-088 | Community 实体单元测试 | 2026-05-21 | Claude Code | 0.5h | - | `entity_test.go`，16 个测试全部通过 |
 | T-089 | Config 实体单元测试 | 2026-05-21 | Claude Code | 0.5h | - | `entity_test.go`，11 个测试全部通过 |
+| T-090 | Genealogy 实体单元测试 | 2026-05-21 | Claude Code | 0.5h | - | `entity_test.go`，20 个测试全部通过 |
 
-| **已完成总计** | **65** 个任务，约 85 工时 |
+| **已完成总计** | **66** 个任务，约 85.5 工时 |
 
 ---
 
@@ -184,7 +185,8 @@
 | 2026-05-21 | 完成 Memorial 实体单元测试（T-086），包含 entity_test.go，24 个测试全部通过 |
 | 2026-05-21 | 完成 Audit 实体单元测试（T-087），包含 entity_test.go，6 个测试全部通过 |
 | 2026-05-21 | 完成 Community 实体单元测试（T-088），包含 entity_test.go，16 个测试全部通过 |
-| 2026-05-21 | 完成 Config 实体单元测试（T-089），包含 entity_test.go，11 个测试全部通过 | Claude Code |
+| 2026-05-21 | 完成 Config 实体单元测试（T-089），包含 entity_test.go，11 个测试全部通过 |
+| 2026-05-21 | 完成 Genealogy 实体单元测试（T-090），包含 entity_test.go，20 个测试全部通过 | Claude Code |
 
 ---
 
