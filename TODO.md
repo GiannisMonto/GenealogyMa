@@ -75,7 +75,9 @@
 
 | T-067 | 人物批量操作 API | 2026-05-21 | Claude Code | 1h | - | 批量创建、更新、删除人物接口，7 个测试全部通过 |
 
-| **已完成总计** | **51** 个任务，约 72.5 工时 |
+| T-068 | Cemetery 应用服务测试 | 2026-05-21 | Claude Code | 1h | T-DC1 | cemetery_service_test.go，21 个测试全部通过 |
+
+| **已完成总计** | **52** 个任务，约 73.5 工时 |
 
 ---
 
@@ -145,6 +147,7 @@
 | 2026-05-21 | 完成配置管理 API（T-064），包含 config 领域模块、应用服务、仓储实现、HTTP 控制器、数据库迁移、单元测试，20+ 个测试全部通过 |
 | 2026-05-21 | 完成 Genealogy 领域模块 + API（T-065），包含 entity、repository、service、应用服务、HTTP 控制器、仓储实现、单元测试，26 个测试全部通过 | Claude Code |
 | 2026-05-21 | 完成 Memorial 领域模块 + API（T-066），包含 entity、repository、service、应用服务、HTTP 控制器、单元测试，22 个测试全部通过 | Claude Code |
+| 2026-05-21 | 完成 Cemetery 应用服务测试（T-068），包含 cemetery_service_test.go，21 个测试全部通过 | Claude Code |
 
 ---
 
