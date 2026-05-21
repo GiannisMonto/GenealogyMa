@@ -96,8 +96,9 @@
 | T-085 | Memorial 管理页面 | 2026-05-21 | Claude Code | 1h | - | 宗祠管理页面 + 单元测试，6 个测试全部通过 |
 | T-086 | Memorial 实体单元测试 | 2026-05-21 | Claude Code | 0.5h | - | `entity_test.go`，24 个测试全部通过 |
 | T-087 | Audit 实体单元测试 | 2026-05-21 | Claude Code | 0.5h | - | `entity_test.go`，6 个测试全部通过 |
+| T-088 | Community 实体单元测试 | 2026-05-21 | Claude Code | 0.5h | - | `entity_test.go`，16 个测试全部通过 |
 
-| **已完成总计** | **63** 个任务，约 84 工时 |
+| **已完成总计** | **64** 个任务，约 84.5 工时 |
 
 ---
 
@@ -180,7 +181,8 @@
 | 2026-05-21 | 完成 Culture 实体单元测试（T-DC2），包含 entity_test.go，常量验证、实体验证测试，25 个测试全部通过 | Claude Code |
 | 2026-05-21 | 完成 Memorial 管理页面（T-085），包含 Memorial 页面、API 客户端、单元测试，6 个测试全部通过 |
 | 2026-05-21 | 完成 Memorial 实体单元测试（T-086），包含 entity_test.go，24 个测试全部通过 |
-| 2026-05-21 | 完成 Audit 实体单元测试（T-087），包含 entity_test.go，6 个测试全部通过 | Claude Code |
+| 2026-05-21 | 完成 Audit 实体单元测试（T-087），包含 entity_test.go，6 个测试全部通过 |
+| 2026-05-21 | 完成 Community 实体单元测试（T-088），包含 entity_test.go，16 个测试全部通过 | Claude Code |
 
 ---
 
