@@ -113,7 +113,9 @@
 
 | T-096 | 世代分布统计页面 | 2026-05-21 | Claude Code | 1h | T-093 | Statistics.vue + Statistics.test.ts，14 个测试全部通过 |
 
-| **已完成总计** | **72** 个任务，约 91 工时 |
+| T-097 | Dashboard 页面单元测试 | 2026-05-21 | Claude Code | 0.5h | T-012 | Dashboard.test.tsx，10 个测试全部通过 |
+
+| **已完成总计** | **73** 个任务，约 91.5 工时 |
 
 ---
 
