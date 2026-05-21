@@ -104,6 +104,12 @@ export const routes: RouteConfig[] = [
     meta: { requiresAuth: true, permission: 'culture:read' },
   },
   {
+    path: '/memorial',
+    name: '宗祠管理',
+    element: React.createElement(lazy(() => import('@/pages/Memorial'))),
+    meta: { requiresAuth: true, permission: 'memorial:read' },
+  },
+  {
     path: '*',
     name: '404',
     element: React.createElement(lazy(() => import('@/pages/Error/404'))),

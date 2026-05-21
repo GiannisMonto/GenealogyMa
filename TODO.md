@@ -93,7 +93,9 @@
 
 | T-084 | Person 实体单元测试 | 2026-05-21 | Claude Code | 0.5h | - | entity_test.go，常量验证、代际边界测试，4 个测试全部通过 |
 
-| **已完成总计** | **60** 个任务，约 81 工时 |
+| T-085 | Memorial 管理页面 | 2026-05-21 | Claude Code | 1h | - | 宗祠管理页面 + 单元测试，6 个测试全部通过 |
+
+| **已完成总计** | **61** 个任务，约 82 工时 |
 
 ---
 
@@ -173,6 +175,7 @@
 | 2026-05-21 | 完成 Config 应用服务测试（T-074），包含 config_service_test.go，26 个测试全部通过 | Claude Code |
 | 2026-05-21 | 完成 Backup API 控制器（T-083），包含 backup_controller.go + backup_controller_test.go，6 个测试全部通过 | Claude Code |
 | 2026-05-21 | 完成 Person 实体单元测试（T-084），包含 entity_test.go，常量验证、代际边界测试，4 个测试全部通过 | Claude Code |
+| 2026-05-21 | 完成 Memorial 管理页面（T-085），包含 Memorial 页面、API 客户端、单元测试，6 个测试全部通过 | Claude Code |
 
 ---
 

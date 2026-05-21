@@ -304,3 +304,60 @@ export interface FamilyTeachingsDTO {
   created_at: string;
   updated_at: string;
 }
+
+/**
+ * 宗祠 DTO
+ */
+export interface MemorialHallDTO {
+  id: number;
+  name: string;
+  description: string;
+  province: string;
+  city: string;
+  district: string;
+  address: string;
+  latitude: number;
+  longitude: number;
+  build_year: number | null;
+  style: string;
+  image_url: string;
+  total_tablet: number;
+  used_tablet: number;
+  usage_rate: number;
+  created_at: string;
+  updated_at: string;
+  tablets?: TabletDTO[];
+}
+
+/**
+ * 牌位 DTO
+ */
+export interface TabletDTO {
+  id: number;
+  hall_id: number;
+  person_id: number | null;
+  person_name: string;
+  generation: number;
+  tablet_type: 'ancestor' | 'martyr' | 'sage' | 'founder';
+  position: string;
+  floor: number;
+  row: number;
+  number: number;
+  entronement: string | null;
+  note: string;
+  created_at: string;
+  updated_at: string;
+  person?: PersonInfoDTO;
+}
+
+/**
+ * 人物简要信息 DTO
+ */
+export interface PersonInfoDTO {
+  id: number;
+  name: string;
+  style_name: string;
+  gender: '男' | '女';
+  birth_year: number | null;
+  death_year: number | null;
+}
