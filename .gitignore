@@ -163,8 +163,8 @@ junit.xml
 *.tmp
 *.cache
 *.old
-backup/
-archives/
+/backup/
+/archives/
 uploads/
 static/uploads/
 
