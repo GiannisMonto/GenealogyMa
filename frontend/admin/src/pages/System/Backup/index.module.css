@@ -1,0 +1,58 @@
+.container {
+  padding: 24px;
+}
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 24px;
+}
+
+.filterCard {
+  margin-bottom: 16px;
+}
+
+.statusTag {
+  margin-right: 8px;
+}
+
+.statusTag:last-child {
+  margin-right: 0;
+}
+
+.typeTag {
+  margin-right: 8px;
+}
+
+.infoText {
+  color: #999;
+  font-size: 12px;
+}
+
+.backupDetail {
+  padding: 8px 0;
+}
+
+.backupDetail p {
+  margin-bottom: 8px;
+  line-height: 1.6;
+}
+
+.backupDetail p:last-child {
+  margin-bottom: 0;
+}
+
+.backupDetail strong {
+  color: #333;
+  margin-right: 8px;
+}
+
+.backupProgress {
+  margin-top: 16px;
+}
+
+.backupProgress p {
+  margin-bottom: 8px;
+  color: #666;
+}
