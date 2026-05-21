@@ -17,7 +17,7 @@
 
 | ID | 任务名称 | 完成日期 | 负责人 | 用时 | 备注 |
 |----|---------|----------|--------|------|------|
-| T-009 | RBAC 控制器测试 | 2026-05-21 | Claude Code | 1h | `rbac_controller_test.go` |
+| T-010 | Person 控制器测试 | 2026-05-21 | Claude Code | 1h | `person_controller_test.go` 12 个测试全部通过 |
 | T-001 | 用户领域实体创建 | 2026-05-21 | Claude Code | 1h | `backend/internal/domain/user/entity.go` |
 | T-002 | 用户仓储接口与实现 | 2026-05-21 | Claude Code | 2h | `repository.go` + `user_repo.go` |
 | T-003 | 用户应用服务 | 2026-05-21 | Claude Code | 3h | `user_service.go` 注册、登录、角色管理 |
@@ -64,7 +64,7 @@
 
 | T-081 | 微信小程序项目初始化 | 2026-05-21 | Claude Code | 1h | - | uni-app + Vue 3 + TypeScript 项目基础结构 |
 
-| **已完成总计** | **42** 个任务，约 62.5 工时 |
+| **已完成总计** | **43** 个任务，约 63.5 工时 |
 
 ---
 
@@ -128,6 +128,7 @@
 | 2026-05-21 | 完成 Audit API 控制器（T-DC9），包含应用服务、仓储实现、数据库迁移、单元测试，5 个控制器测试全部通过 | Claude Code |
 | 2026-05-21 | 完成 Community API 控制器（T-DC8），包含应用服务、仓储实现、数据库迁移、单元测试，11 个控制器测试全部通过 | Claude Code |
 | 2026-05-21 | 完成微信小程序项目初始化（T-081），uni-app + Vue 3 + TypeScript 项目基础结构，包含登录页、人物列表页、人物详情页、族谱树页、个人中心页 | Claude Code |
+| 2026-05-21 | 完成人物控制器测试（T-010），包含 12 个测试用例，覆盖 CRUD、族谱树、统计等接口 | Claude Code |
 
 ---
 
