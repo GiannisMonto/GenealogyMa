@@ -105,9 +105,14 @@ func (s *BackupService) CreateBackup(ctx context.Context, req *CreateBackupReque
 		return nil, err
 	}
 
+	// 立即更新状态为运行中，避免异步竞态
+	s.domainService.UpdateBackupStatus(ctx, b.ID, backup.BackupStatusRunning, "", 0, "")
+
 	// 异步执行备份
 	go s.executeBackup(b.ID, req.Database, req.Tables)
 
+	// 返回最新状态
+	b.Status = backup.BackupStatusRunning
 	return backupToDTO(b), nil
 }
 
