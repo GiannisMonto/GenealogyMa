@@ -109,7 +109,9 @@
 
 | T-094 | 族谱树搜索定位组件 | 2026-05-21 | Claude Code | 1h | T-093 | SearchPanel 组件 + 单元测试，17 个测试全部通过 |
 
-| **已完成总计** | **70** 个任务，约 89.5 工时 |
+| T-095 | PersonDetail 页面单元测试 | 2026-05-21 | Claude Code | 0.5h | T-093 | PersonDetail.test.ts，10 个测试全部通过 |
+
+| **已完成总计** | **71** 个任务，约 90 工时 |
 
 ---
 
@@ -200,6 +202,7 @@
 | 2026-05-21 | 完成数据导出服务（T-092），包含 export_service.go + export_service_test.go，16 个测试全部通过 | Claude Code |
 | 2026-05-21 | 完成可视化项目初始化（T-093），Vue 3 + Vite + TypeScript + D3.js + Pinia + Vue Router + 单元测试，16 个测试全部通过 | Claude Code |
 | 2026-05-21 | 完成族谱树搜索定位组件（T-094），包含 SearchPanel 组件 + 单元测试，17 个测试全部通过 | Claude Code |
+| 2026-05-21 | 完成 PersonDetail 页面单元测试（T-095），包含 PersonDetail.test.ts，10 个测试全部通过 | Claude Code |
 
 ---
 
