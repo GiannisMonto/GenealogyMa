@@ -86,7 +86,7 @@ func (c *Cemetery) UsageRate() float64 {
 
 // HasAvailableSpace 判断是否有可用墓位
 func (c *Cemetery) HasAvailableSpace() bool {
-	return c.UsedGrave < c.TotalGrave
+	return c.TotalGrave == 0 || c.UsedGrave < c.TotalGrave
 }
 
 // Validate 验证墓园信息
