@@ -55,7 +55,9 @@ func (m *mockRepository) Create(ctx context.Context, p *Person) error {
 
 func (m *mockRepository) Update(ctx context.Context, p *Person) error {
 	p.UpdatedAt = time.Now()
-	m.persons[p.ID] = p
+	// 深拷贝以避免指针问题（模拟真实数据库行为）
+	copy := *p
+	m.persons[p.ID] = &copy
 	return nil
 }
 
@@ -624,7 +626,115 @@ func TestServiceGetStatistics(t *testing.T) {
 	})
 }
 
+func TestServiceAddParentChildRelation(t *testing.T) {
+	repo := newMockPersonRepository()
+	svc := NewService(repo)
+	ctx := context.Background()
+
+	repo.persons[1] = &Person{ID: 1, Name: "父亲", Gender: GenderMale, Generation: 1}
+	repo.persons[2] = &Person{ID: 2, Name: "儿子", Gender: GenderMale, Generation: 2, FatherID: nil}
+
+	t.Run("add parent-child relation successfully", func(t *testing.T) {
+		err := svc.AddParentChildRelation(ctx, 1, 2, RelationBiological, 1, true)
+		if err != nil {
+			t.Fatalf("AddParentChildRelation() error = %v", err)
+		}
+
+		// 验证儿子的父亲ID已更新
+		child, _ := repo.FindByID(ctx, 2)
+		if child.FatherID == nil || *child.FatherID != 1 {
+			t.Errorf("expected FatherID to be 1, got %v", child.FatherID)
+		}
+		// 验证世代已更新
+		if child.Generation != 2 {
+			t.Errorf("expected Generation to be 2, got %d", child.Generation)
+		}
+	})
+
+	t.Run("self-reference not allowed", func(t *testing.T) {
+		err := svc.AddParentChildRelation(ctx, 1, 1, RelationBiological, 1, true)
+		if err == nil {
+			t.Error("expected error for self-reference")
+		}
+		if err.Error() != "self reference not allowed" {
+			t.Errorf("expected 'self reference not allowed', got '%s'", err.Error())
+		}
+	})
+
+	t.Run("parent not found", func(t *testing.T) {
+		err := svc.AddParentChildRelation(ctx, 999, 2, RelationBiological, 1, true)
+		if err == nil {
+			t.Error("expected error when parent not found")
+		}
+		if err.Error() != "parent person not found: 999" {
+			t.Errorf("expected 'parent person not found: 999', got '%s'", err.Error())
+		}
+	})
+
+	t.Run("child not found", func(t *testing.T) {
+		err := svc.AddParentChildRelation(ctx, 1, 999, RelationBiological, 1, true)
+		if err == nil {
+			t.Error("expected error when child not found")
+		}
+		if err.Error() != "child person not found: 999" {
+			t.Errorf("expected 'child person not found: 999', got '%s'", err.Error())
+		}
+	})
+}
+
+func TestServiceCheckCycle(t *testing.T) {
+	repo := newMockPersonRepositoryWithDescendants()
+	svc := NewService(repo)
+	ctx := context.Background()
+
+	// 设置：1是2的父亲，2是3的父亲
+	repo.persons[1] = &Person{ID: 1, Name: "祖父", Gender: GenderMale, Generation: 1}
+	repo.persons[2] = &Person{ID: 2, Name: "父亲", Gender: GenderMale, Generation: 2, FatherID: int64Ptr(1)}
+	repo.persons[3] = &Person{ID: 3, Name: "儿子", Gender: GenderMale, Generation: 3, FatherID: int64Ptr(2)}
+
+	// 设置1的后代是2和3
+	repo.SetDescendants(1, []*Person{repo.persons[2], repo.persons[3]})
+	// 设置2的后代是3
+	repo.SetDescendants(2, []*Person{repo.persons[3]})
+
+	t.Run("cycle detected - ancestor as child", func(t *testing.T) {
+		// 尝试让3成为1的父亲（形成循环：1->2->3->1）
+		err := svc.AddParentChildRelation(ctx, 3, 1, RelationBiological, 1, true)
+		if err == nil {
+			t.Error("expected error when cycle detected")
+		}
+		if err.Error() != "cycle detected: person 3 is already a descendant of 1" {
+			t.Errorf("expected 'cycle detected' error, got '%s'", err.Error())
+		}
+	})
+}
+
+// mockRepositoryWithDescendants 支持FindDescendants的mock
+type mockRepositoryWithDescendants struct {
+	*mockRepository
+	descendants map[int64][]*Person
+}
+
+func newMockPersonRepositoryWithDescendants() *mockRepositoryWithDescendants {
+	return &mockRepositoryWithDescendants{
+		mockRepository: newMockPersonRepository(),
+		descendants:    make(map[int64][]*Person),
+	}
+}
+
+func (m *mockRepositoryWithDescendants) FindDescendants(ctx context.Context, personID int64, depth int) ([]*Person, error) {
+	return m.descendants[personID], nil
+}
+
+func (m *mockRepositoryWithDescendants) SetDescendants(personID int64, descendants []*Person) {
+	m.descendants[personID] = descendants
+}
+
 // 辅助函数
 func intPtr(i int) *int {
+	return &i
+}
+
+func int64Ptr(i int64) *int64 {
 	return &i
 }

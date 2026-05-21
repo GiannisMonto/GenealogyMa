@@ -132,8 +132,32 @@ func (s *Service) AddParentChildRelation(ctx context.Context, parentID, childID 
 		return err
 	}
 
-	// TODO: 实现关系创建逻辑
-	return nil
+	// 检查父对象是否存在
+	parent, err := s.repo.FindByID(ctx, parentID)
+	if err != nil {
+		return err
+	}
+	if parent == nil {
+		return fmt.Errorf("parent person not found: %d", parentID)
+	}
+
+	// 检查子对象是否存在
+	child, err := s.repo.FindByID(ctx, childID)
+	if err != nil {
+		return err
+	}
+	if child == nil {
+		return fmt.Errorf("child person not found: %d", childID)
+	}
+
+	// 更新子的父亲ID（使用临时变量避免修改原对象）
+	fatherID := parentID
+	child.FatherID = &fatherID
+
+	// 计算世代：子代 = 父代 + 1
+	child.Generation = parent.Generation + 1
+
+	return s.repo.Update(ctx, child)
 }
 
 // checkCycle 检查是否会形成循环引用
