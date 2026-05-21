@@ -37,6 +37,10 @@ func (c *PersonController) RegisterRoutes(r *gin.RouterGroup, authMiddleware gin
 			authRequired.POST("", auth.RequirePermission(auth.PermissionPersonWrite), c.Create)
 			authRequired.PUT("/:id", auth.RequirePermission(auth.PermissionPersonWrite), c.Update)
 			authRequired.DELETE("/:id", auth.RequirePermission(auth.PermissionPersonDelete), c.Delete)
+			// 批量操作
+			authRequired.POST("/batch", auth.RequirePermission(auth.PermissionPersonWrite), c.BatchCreate)
+			authRequired.PUT("/batch", auth.RequirePermission(auth.PermissionPersonWrite), c.BatchUpdate)
+			authRequired.DELETE("/batch", auth.RequirePermission(auth.PermissionPersonDelete), c.BatchDelete)
 		}
 	}
 }
@@ -246,4 +250,97 @@ func (c *PersonController) GetStatistics(ctx *gin.Context) {
 	}
 
 	utils.Success(ctx, stats)
+}
+
+// BatchCreate 批量创建人物
+// @Summary 批量创建人物
+// @Description 批量创建多个新人物
+// @Tags 人物
+// @Accept json
+// @Produce json
+// @Param persons body service.BatchCreatePersonRequest true "人物列表"
+// @Success 200 {object} utils.Response{data=service.BatchResult}
+// @Security BearerAuth
+// @Router /persons/batch [post]
+func (c *PersonController) BatchCreate(ctx *gin.Context) {
+	var req service.BatchCreatePersonRequest
+	if err := ctx.ShouldBindJSON(&req); err != nil {
+		utils.Error(ctx, http.StatusBadRequest, "参数错误: "+err.Error())
+		return
+	}
+
+	if len(req.Persons) == 0 {
+		utils.Error(ctx, http.StatusBadRequest, "人物列表不能为空")
+		return
+	}
+
+	result, err := c.personService.BatchCreatePersons(ctx, &req)
+	if err != nil {
+		utils.Error(ctx, http.StatusInternalServerError, "批量创建失败: "+err.Error())
+		return
+	}
+
+	utils.Success(ctx, result)
+}
+
+// BatchUpdate 批量更新人物
+// @Summary 批量更新人物
+// @Description 批量更新多个人的信息
+// @Tags 人物
+// @Accept json
+// @Produce json
+// @Param persons body service.BatchUpdatePersonRequest true "更新列表"
+// @Success 200 {object} utils.Response{data=service.BatchResult}
+// @Security BearerAuth
+// @Router /persons/batch [put]
+func (c *PersonController) BatchUpdate(ctx *gin.Context) {
+	var req service.BatchUpdatePersonRequest
+	if err := ctx.ShouldBindJSON(&req); err != nil {
+		utils.Error(ctx, http.StatusBadRequest, "参数错误: "+err.Error())
+		return
+	}
+
+	if len(req.Persons) == 0 {
+		utils.Error(ctx, http.StatusBadRequest, "更新列表不能为空")
+		return
+	}
+
+	result, err := c.personService.BatchUpdatePersons(ctx, &req)
+	if err != nil {
+		utils.Error(ctx, http.StatusInternalServerError, "批量更新失败: "+err.Error())
+		return
+	}
+
+	utils.Success(ctx, result)
+}
+
+// BatchDelete 批量删除人物
+// @Summary 批量删除人物
+// @Description 批量删除指定人物
+// @Tags 人物
+// @Accept json
+// @Produce json
+// @Param ids body service.BatchDeleteRequest true "ID列表"
+// @Success 200 {object} utils.Response{data=service.BatchResult}
+// @Security BearerAuth
+// @Router /persons/batch [delete]
+func (c *PersonController) BatchDelete(ctx *gin.Context) {
+	var req service.BatchDeleteRequest
+	if err := ctx.ShouldBindJSON(&req); err != nil {
+		utils.Error(ctx, http.StatusBadRequest, "参数错误: "+err.Error())
+		return
+	}
+
+	if len(req.IDs) == 0 {
+		utils.Error(ctx, http.StatusBadRequest, "ID列表不能为空")
+		return
+	}
+
+	result, err := c.personService.BatchDeletePersons(ctx, &req)
+	if err != nil {
+		utils.Error(ctx, http.StatusInternalServerError, "批量删除失败: "+err.Error())
+		return
+	}
+
+	utils.Success(ctx, result)
 }

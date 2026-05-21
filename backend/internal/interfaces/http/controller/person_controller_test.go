@@ -79,6 +79,56 @@ func (m *MockPersonService) GetStatistics(ctx context.Context) (*service.Statist
 	return m.stats, nil
 }
 
+func (m *MockPersonService) BatchCreatePersons(ctx context.Context, req *service.BatchCreatePersonRequest) (*service.BatchResult, error) {
+	result := &service.BatchResult{
+		Results: make([]*service.BatchItemResult, 0, len(req.Persons)),
+	}
+	for _, p := range req.Persons {
+		id := m.nextID
+		m.nextID++
+		m.persons[id] = &service.PersonDTO{ID: id, Name: p.Name, Generation: p.Generation}
+		result.SuccessCount++
+		result.Results = append(result.Results, &service.BatchItemResult{ID: id, Success: true})
+	}
+	return result, nil
+}
+
+func (m *MockPersonService) BatchUpdatePersons(ctx context.Context, req *service.BatchUpdatePersonRequest) (*service.BatchResult, error) {
+	result := &service.BatchResult{
+		Results: make([]*service.BatchItemResult, 0, len(req.Persons)),
+	}
+	for _, item := range req.Persons {
+		if p, ok := m.persons[item.ID]; ok {
+			if item.Name != "" {
+				p.Name = item.Name
+			}
+			result.SuccessCount++
+			result.Results = append(result.Results, &service.BatchItemResult{ID: item.ID, Success: true})
+		} else {
+			result.FailCount++
+			result.Results = append(result.Results, &service.BatchItemResult{ID: item.ID, Success: false, Error: "not found"})
+		}
+	}
+	return result, nil
+}
+
+func (m *MockPersonService) BatchDeletePersons(ctx context.Context, req *service.BatchDeleteRequest) (*service.BatchResult, error) {
+	result := &service.BatchResult{
+		Results: make([]*service.BatchItemResult, 0, len(req.IDs)),
+	}
+	for _, id := range req.IDs {
+		if _, ok := m.persons[id]; ok {
+			delete(m.persons, id)
+			result.SuccessCount++
+			result.Results = append(result.Results, &service.BatchItemResult{ID: id, Success: true})
+		} else {
+			result.FailCount++
+			result.Results = append(result.Results, &service.BatchItemResult{ID: id, Success: false, Error: "not found"})
+		}
+	}
+	return result, nil
+}
+
 func setupPersonTestRouter() *gin.Engine {
 	gin.SetMode(gin.TestMode)
 	return gin.New()
@@ -417,5 +467,249 @@ func TestPersonEntity_Validation(t *testing.T) {
 				t.Errorf("Person.Validate() error = %v, wantErr %v", err, tt.wantErr)
 			}
 		})
+	}
+}
+
+func TestPersonController_BatchCreate(t *testing.T) {
+	mockService := NewMockPersonService()
+
+	r := setupPersonTestRouter()
+	r.POST("/persons/batch", func(ctx *gin.Context) {
+		var req service.BatchCreatePersonRequest
+		if err := ctx.ShouldBindJSON(&req); err != nil {
+			ctx.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+			return
+		}
+		result, _ := mockService.BatchCreatePersons(ctx, &req)
+		ctx.JSON(http.StatusOK, gin.H{"data": result})
+	})
+
+	body := bytes.NewBufferString(`{"persons":[{"name":"张三","gender":"男","generation":1},{"name":"李四","gender":"女","generation":2}]}`)
+	req, _ := http.NewRequest("POST", "/persons/batch", body)
+	req.Header.Set("Content-Type", "application/json")
+	w := httptest.NewRecorder()
+	r.ServeHTTP(w, req)
+
+	if w.Code != http.StatusOK {
+		t.Errorf("Expected status %d, got %d", http.StatusOK, w.Code)
+	}
+
+	var response map[string]interface{}
+	json.Unmarshal(w.Body.Bytes(), &response)
+
+	data, ok := response["data"].(map[string]interface{})
+	if !ok {
+		t.Errorf("Expected data in response")
+		return
+	}
+	if data["success_count"] != float64(2) {
+		t.Errorf("Expected success_count 2, got %v", data["success_count"])
+	}
+}
+
+func TestPersonController_BatchCreate_EmptyList(t *testing.T) {
+	r := setupPersonTestRouter()
+	r.POST("/persons/batch", func(ctx *gin.Context) {
+		var req service.BatchCreatePersonRequest
+		if err := ctx.ShouldBindJSON(&req); err != nil {
+			ctx.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+			return
+		}
+		if len(req.Persons) == 0 {
+			ctx.JSON(http.StatusBadRequest, gin.H{"error": "empty list"})
+			return
+		}
+		ctx.JSON(http.StatusOK, gin.H{})
+	})
+
+	body := bytes.NewBufferString(`{"persons":[]}`)
+	req, _ := http.NewRequest("POST", "/persons/batch", body)
+	req.Header.Set("Content-Type", "application/json")
+	w := httptest.NewRecorder()
+	r.ServeHTTP(w, req)
+
+	if w.Code != http.StatusBadRequest {
+		t.Errorf("Expected status %d, got %d", http.StatusBadRequest, w.Code)
+	}
+}
+
+func TestPersonController_BatchUpdate(t *testing.T) {
+	mockService := NewMockPersonService()
+	mockService.persons[1] = &service.PersonDTO{ID: 1, Name: "张三", Generation: 1}
+	mockService.persons[2] = &service.PersonDTO{ID: 2, Name: "李四", Generation: 2}
+
+	r := setupPersonTestRouter()
+	r.PUT("/persons/batch", func(ctx *gin.Context) {
+		var req service.BatchUpdatePersonRequest
+		if err := ctx.ShouldBindJSON(&req); err != nil {
+			ctx.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+			return
+		}
+		result, _ := mockService.BatchUpdatePersons(ctx, &req)
+		ctx.JSON(http.StatusOK, gin.H{"data": result})
+	})
+
+	body := bytes.NewBufferString(`{"persons":[{"id":1,"name":"新张三"},{"id":2,"name":"新李四"}]}`)
+	req, _ := http.NewRequest("PUT", "/persons/batch", body)
+	req.Header.Set("Content-Type", "application/json")
+	w := httptest.NewRecorder()
+	r.ServeHTTP(w, req)
+
+	if w.Code != http.StatusOK {
+		t.Errorf("Expected status %d, got %d", http.StatusOK, w.Code)
+	}
+
+	var response map[string]interface{}
+	json.Unmarshal(w.Body.Bytes(), &response)
+
+	data, ok := response["data"].(map[string]interface{})
+	if !ok {
+		t.Errorf("Expected data in response")
+		return
+	}
+	if data["success_count"] != float64(2) {
+		t.Errorf("Expected success_count 2, got %v", data["success_count"])
+	}
+}
+
+func TestPersonController_BatchUpdate_PartialFailure(t *testing.T) {
+	mockService := NewMockPersonService()
+	mockService.persons[1] = &service.PersonDTO{ID: 1, Name: "张三", Generation: 1}
+
+	r := setupPersonTestRouter()
+	r.PUT("/persons/batch", func(ctx *gin.Context) {
+		var req service.BatchUpdatePersonRequest
+		if err := ctx.ShouldBindJSON(&req); err != nil {
+			ctx.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+			return
+		}
+		result, _ := mockService.BatchUpdatePersons(ctx, &req)
+		ctx.JSON(http.StatusOK, gin.H{"data": result})
+	})
+
+	body := bytes.NewBufferString(`{"persons":[{"id":1,"name":"新张三"},{"id":999,"name":"不存在"}]}`)
+	req, _ := http.NewRequest("PUT", "/persons/batch", body)
+	req.Header.Set("Content-Type", "application/json")
+	w := httptest.NewRecorder()
+	r.ServeHTTP(w, req)
+
+	if w.Code != http.StatusOK {
+		t.Errorf("Expected status %d, got %d", http.StatusOK, w.Code)
+	}
+
+	var response map[string]interface{}
+	json.Unmarshal(w.Body.Bytes(), &response)
+
+	data, ok := response["data"].(map[string]interface{})
+	if !ok {
+		t.Errorf("Expected data in response")
+		return
+	}
+	if data["success_count"] != float64(1) {
+		t.Errorf("Expected success_count 1, got %v", data["success_count"])
+	}
+	if data["fail_count"] != float64(1) {
+		t.Errorf("Expected fail_count 1, got %v", data["fail_count"])
+	}
+}
+
+func TestPersonController_BatchDelete(t *testing.T) {
+	mockService := NewMockPersonService()
+	mockService.persons[1] = &service.PersonDTO{ID: 1, Name: "张三", Generation: 1}
+	mockService.persons[2] = &service.PersonDTO{ID: 2, Name: "李四", Generation: 2}
+
+	r := setupPersonTestRouter()
+	r.DELETE("/persons/batch", func(ctx *gin.Context) {
+		var req service.BatchDeleteRequest
+		if err := ctx.ShouldBindJSON(&req); err != nil {
+			ctx.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+			return
+		}
+		result, _ := mockService.BatchDeletePersons(ctx, &req)
+		ctx.JSON(http.StatusOK, gin.H{"data": result})
+	})
+
+	body := bytes.NewBufferString(`{"ids":[1,2]}`)
+	req, _ := http.NewRequest("DELETE", "/persons/batch", body)
+	req.Header.Set("Content-Type", "application/json")
+	w := httptest.NewRecorder()
+	r.ServeHTTP(w, req)
+
+	if w.Code != http.StatusOK {
+		t.Errorf("Expected status %d, got %d", http.StatusOK, w.Code)
+	}
+
+	if mockService.persons[1] != nil {
+		t.Error("Expected person 1 to be deleted")
+	}
+	if mockService.persons[2] != nil {
+		t.Error("Expected person 2 to be deleted")
+	}
+}
+
+func TestPersonController_BatchDelete_PartialFailure(t *testing.T) {
+	mockService := NewMockPersonService()
+	mockService.persons[1] = &service.PersonDTO{ID: 1, Name: "张三", Generation: 1}
+
+	r := setupPersonTestRouter()
+	r.DELETE("/persons/batch", func(ctx *gin.Context) {
+		var req service.BatchDeleteRequest
+		if err := ctx.ShouldBindJSON(&req); err != nil {
+			ctx.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+			return
+		}
+		result, _ := mockService.BatchDeletePersons(ctx, &req)
+		ctx.JSON(http.StatusOK, gin.H{"data": result})
+	})
+
+	body := bytes.NewBufferString(`{"ids":[1,999]}`)
+	req, _ := http.NewRequest("DELETE", "/persons/batch", body)
+	req.Header.Set("Content-Type", "application/json")
+	w := httptest.NewRecorder()
+	r.ServeHTTP(w, req)
+
+	if w.Code != http.StatusOK {
+		t.Errorf("Expected status %d, got %d", http.StatusOK, w.Code)
+	}
+
+	var response map[string]interface{}
+	json.Unmarshal(w.Body.Bytes(), &response)
+
+	data, ok := response["data"].(map[string]interface{})
+	if !ok {
+		t.Errorf("Expected data in response")
+		return
+	}
+	if data["success_count"] != float64(1) {
+		t.Errorf("Expected success_count 1, got %v", data["success_count"])
+	}
+	if data["fail_count"] != float64(1) {
+		t.Errorf("Expected fail_count 1, got %v", data["fail_count"])
+	}
+}
+
+func TestPersonController_BatchDelete_EmptyList(t *testing.T) {
+	r := setupPersonTestRouter()
+	r.DELETE("/persons/batch", func(ctx *gin.Context) {
+		var req service.BatchDeleteRequest
+		if err := ctx.ShouldBindJSON(&req); err != nil {
+			ctx.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+			return
+		}
+		if len(req.IDs) == 0 {
+			ctx.JSON(http.StatusBadRequest, gin.H{"error": "empty list"})
+			return
+		}
+		ctx.JSON(http.StatusOK, gin.H{})
+	})
+
+	body := bytes.NewBufferString(`{"ids":[]}`)
+	req, _ := http.NewRequest("DELETE", "/persons/batch", body)
+	req.Header.Set("Content-Type", "application/json")
+	w := httptest.NewRecorder()
+	r.ServeHTTP(w, req)
+
+	if w.Code != http.StatusBadRequest {
+		t.Errorf("Expected status %d, got %d", http.StatusBadRequest, w.Code)
 	}
 }

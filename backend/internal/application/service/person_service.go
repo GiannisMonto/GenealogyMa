@@ -351,3 +351,177 @@ func (s *PersonService) GetStatistics(ctx context.Context) (*StatisticsResponse,
 		ByGeneration: stats.ByGeneration,
 	}, nil
 }
+
+// ===== 批量操作 DTO =====
+
+// BatchCreatePersonRequest 批量创建人物请求
+type BatchCreatePersonRequest struct {
+	Persons []*CreatePersonRequest `json:"persons" binding:"required,min=1,max=100"`
+}
+
+// BatchUpdatePersonRequest 批量更新人物请求
+type BatchUpdatePersonRequest struct {
+	Persons []*BatchUpdateItem `json:"persons" binding:"required,min=1,max=100"`
+}
+
+// BatchUpdateItem 批量更新单项
+type BatchUpdateItem struct {
+	ID               int64  `json:"id" binding:"required"`
+	Name             string `json:"name"`
+	StyleName        string `json:"style_name"`
+	Gender           string `json:"gender"`
+	Generation       *int   `json:"generation"`
+	BirthOrder       string `json:"birth_order"`
+	FatherID         *int64 `json:"father_id"`
+	DetailText       string `json:"detail_text"`
+	BirthTimeText    string `json:"birth_time_text"`
+	DeathTimeText    string `json:"death_time_text"`
+	BirthPlace       string `json:"birth_place"`
+	BurialPlace      string `json:"burial_place"`
+}
+
+// BatchDeleteRequest 批量删除请求
+type BatchDeleteRequest struct {
+	IDs []int64 `json:"ids" binding:"required,min=1,max=100"`
+}
+
+// BatchResult 批量操作结果
+type BatchResult struct {
+	SuccessCount int               `json:"success_count"`
+	FailCount    int               `json:"fail_count"`
+	Results      []*BatchItemResult `json:"results"`
+}
+
+// BatchItemResult 批量操作单项结果
+type BatchItemResult struct {
+	ID    int64  `json:"id"`
+	Success bool `json:"success"`
+	Error  string `json:"error,omitempty"`
+}
+
+// BatchCreatePersons 批量创建人物
+func (s *PersonService) BatchCreatePersons(ctx context.Context, req *BatchCreatePersonRequest) (*BatchResult, error) {
+	result := &BatchResult{
+		Results: make([]*BatchItemResult, 0, len(req.Persons)),
+	}
+
+	for _, p := range req.Persons {
+		person := &person.Person{
+			Name:          p.Name,
+			StyleName:     p.StyleName,
+			Gender:        person.Gender(p.Gender),
+			Generation:    p.Generation,
+			BirthOrder:    p.BirthOrder,
+			FatherID:      p.FatherID,
+			DetailText:    p.DetailText,
+			BirthTimeText: p.BirthTimeText,
+			DeathTimeText: p.DeathTimeText,
+			BirthPlace:    p.BirthPlace,
+			BurialPlace:   p.BurialPlace,
+		}
+
+		if err := s.domainService.CreatePerson(ctx, person); err != nil {
+			result.FailCount++
+			result.Results = append(result.Results, &BatchItemResult{
+				ID:     0,
+				Success: false,
+				Error:  err.Error(),
+			})
+		} else {
+			result.SuccessCount++
+			result.Results = append(result.Results, &BatchItemResult{
+				ID:     person.ID,
+				Success: true,
+			})
+		}
+	}
+
+	return result, nil
+}
+
+// BatchUpdatePersons 批量更新人物
+func (s *PersonService) BatchUpdatePersons(ctx context.Context, req *BatchUpdatePersonRequest) (*BatchResult, error) {
+	result := &BatchResult{
+		Results: make([]*BatchItemResult, 0, len(req.Persons)),
+	}
+
+	for _, item := range req.Persons {
+		p, err := s.domainService.GetPerson(ctx, item.ID, false)
+		if err != nil {
+			result.FailCount++
+			result.Results = append(result.Results, &BatchItemResult{
+				ID:     item.ID,
+				Success: false,
+				Error:  "person not found",
+			})
+			continue
+		}
+
+		if item.Name != "" {
+			p.Name = item.Name
+		}
+		if item.StyleName != "" {
+			p.StyleName = item.StyleName
+		}
+		if item.Gender != "" {
+			p.Gender = person.Gender(item.Gender)
+		}
+		if item.Generation != nil {
+			p.Generation = *item.Generation
+		}
+		if item.BirthOrder != "" {
+			p.BirthOrder = item.BirthOrder
+		}
+		if item.FatherID != nil {
+			p.FatherID = item.FatherID
+		}
+		p.DetailText = item.DetailText
+		p.BirthTimeText = item.BirthTimeText
+		p.DeathTimeText = item.DeathTimeText
+		p.BirthPlace = item.BirthPlace
+		p.BurialPlace = item.BurialPlace
+
+		if err := s.domainService.UpdatePerson(ctx, p); err != nil {
+			result.FailCount++
+			result.Results = append(result.Results, &BatchItemResult{
+				ID:     item.ID,
+				Success: false,
+				Error:  err.Error(),
+			})
+		} else {
+			result.SuccessCount++
+			result.Results = append(result.Results, &BatchItemResult{
+				ID:     item.ID,
+				Success: true,
+			})
+		}
+	}
+
+	return result, nil
+}
+
+// BatchDeletePersons 批量删除人物
+func (s *PersonService) BatchDeletePersons(ctx context.Context, req *BatchDeleteRequest) (*BatchResult, error) {
+	result := &BatchResult{
+		Results: make([]*BatchItemResult, 0, len(req.IDs)),
+	}
+
+	for _, id := range req.IDs {
+		if err := s.domainService.DeletePerson(ctx, id); err != nil {
+			result.FailCount++
+			result.Results = append(result.Results, &BatchItemResult{
+				ID:     id,
+				Success: false,
+				Error:  err.Error(),
+			})
+		} else {
+			result.SuccessCount++
+			result.Results = append(result.Results, &BatchItemResult{
+				ID:     id,
+				Success: true,
+			})
+		}
+	}
+
+	return result, nil
+}
