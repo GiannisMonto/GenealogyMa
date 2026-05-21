@@ -105,7 +105,9 @@
 
 | T-092 | 数据导出服务 | 2026-05-21 | Claude Code | 1h | T-067 | export_service.go + export_service_test.go，16 个测试全部通过 |
 
-| **已完成总计** | **68** 个任务，约 87.5 工时 |
+| T-093 | 可视化项目初始化 | 2026-05-21 | Claude Code | 1h | Vue 3 + Vite + TypeScript + D3.js + Pinia + Vue Router + 单元测试，16 个测试全部通过 |
+
+| **已完成总计** | **69** 个任务，约 88.5 工时 |
 
 ---
 
@@ -194,6 +196,7 @@
 | 2026-05-21 | 完成 Config 实体单元测试（T-089），包含 entity_test.go，11 个测试全部通过 |
 | 2026-05-21 | 完成 Genealogy 实体单元测试（T-090），包含 entity_test.go，20 个测试全部通过 | Claude Code |
 | 2026-05-21 | 完成数据导出服务（T-092），包含 export_service.go + export_service_test.go，16 个测试全部通过 | Claude Code |
+| 2026-05-21 | 完成可视化项目初始化（T-093），Vue 3 + Vite + TypeScript + D3.js + Pinia + Vue Router + 单元测试，16 个测试全部通过 | Claude Code |
 
 ---
 
