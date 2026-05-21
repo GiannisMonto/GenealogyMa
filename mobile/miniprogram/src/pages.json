@@ -1,0 +1,66 @@
+{
+  "pages": [
+    {
+      "path": "pages/login/index",
+      "style": {
+        "navigationBarTitleText": "登录"
+      }
+    },
+    {
+      "path": "pages/person/list",
+      "style": {
+        "navigationBarTitleText": "人物列表"
+      }
+    },
+    {
+      "path": "pages/person/detail",
+      "style": {
+        "navigationBarTitleText": "人物详情"
+      }
+    },
+    {
+      "path": "pages/genealogy/tree",
+      "style": {
+        "navigationBarTitleText": "族谱树"
+      }
+    },
+    {
+      "path": "pages/user/profile",
+      "style": {
+        "navigationBarTitleText": "个人中心"
+      }
+    }
+  ],
+  "globalStyle": {
+    "navigationBarTextStyle": "black",
+    "navigationBarTitleText": "族谱",
+    "navigationBarBackgroundColor": "#F8F8F8",
+    "backgroundColor": "#F8F8F8"
+  },
+  "tabBar": {
+    "color": "#999999",
+    "selectedColor": "#1890ff",
+    "borderStyle": "black",
+    "backgroundColor": "#ffffff",
+    "list": [
+      {
+        "pagePath": "pages/person/list",
+        "text": "人物",
+        "iconPath": "static/tabbar/person.png",
+        "selectedIconPath": "static/tabbar/person-active.png"
+      },
+      {
+        "pagePath": "pages/genealogy/tree",
+        "text": "族谱",
+        "iconPath": "static/tabbar/tree.png",
+        "selectedIconPath": "static/tabbar/tree-active.png"
+      },
+      {
+        "pagePath": "pages/user/profile",
+        "text": "我的",
+        "iconPath": "static/tabbar/user.png",
+        "selectedIconPath": "static/tabbar/user-active.png"
+      }
+    ]
+  }
+}
