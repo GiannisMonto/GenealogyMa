@@ -62,7 +62,7 @@
 | T-DC8 | Community API | 2026-05-21 | Claude Code | 2h | T-DC3 | Community API 控制器、应用服务、仓储实现、数据库迁移，11 个控制器测试全部通过 |
 | T-DC9 | Audit API | 2026-05-21 | Claude Code | 1h | T-DC4 | Audit API 控制器、应用服务、仓储实现、数据库迁移，5 个控制器测试全部通过 |
 
-| T-DC10 | 族谱树可视化组件 | 2026-05-21 | Claude Code | 1h | T010 | GenealogyTree 组件、D3.js 树形布局、单元测试，9 个测试全部通过 |
+| T-DC10 | 族谱树可视化组件 | 2026-05-21 | Claude Code | 1h | T010 | GenealogyTree 组件、D3.js 树形布局、单元测试，11 个测试全部通过 |
 
 | T-DC11 | 数据库备份/恢复服务 | 2026-05-21 | Claude Code | 1h | - | backup 领域模块（entity、repository、service）、应用服务、仓储实现、单元测试，17 个测试全部通过 |
 
