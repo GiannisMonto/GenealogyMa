@@ -485,7 +485,7 @@ func (m *mockBackupRepositoryWithError) List(ctx context.Context, filter backup.
 	return m.inner.List(ctx, filter)
 }
 func (m *mockBackupRepositoryWithError) Update(ctx context.Context, b *backup.Backup) error {
-	return m.inner.Update(ctx, b)
+	return errors.New("update error")
 }
 func (m *mockBackupRepositoryWithError) Delete(ctx context.Context, id int64) error {
 	return m.inner.Delete(ctx, id)
