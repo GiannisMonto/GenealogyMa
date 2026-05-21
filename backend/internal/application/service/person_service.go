@@ -244,6 +244,9 @@ func (s *PersonService) UpdatePerson(ctx context.Context, id int64, req *UpdateP
 	if err != nil {
 		return nil, err
 	}
+	if p == nil {
+		return nil, nil
+	}
 
 	if req.Name != "" {
 		p.Name = req.Name
@@ -448,6 +451,15 @@ func (s *PersonService) BatchUpdatePersons(ctx context.Context, req *BatchUpdate
 	for _, item := range req.Persons {
 		p, err := s.domainService.GetPerson(ctx, item.ID, false)
 		if err != nil {
+			result.FailCount++
+			result.Results = append(result.Results, &BatchItemResult{
+				ID:     item.ID,
+				Success: false,
+				Error:  "person not found",
+			})
+			continue
+		}
+		if p == nil {
 			result.FailCount++
 			result.Results = append(result.Results, &BatchItemResult{
 				ID:     item.ID,
