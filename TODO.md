@@ -83,7 +83,9 @@
 
 | T-071 | Person 应用服务测试 | 2026-05-21 | Claude Code | 1h | - | person_service_test.go，22 个测试全部通过 |
 
-| **已完成总计** | **55** 个任务，约 76.5 工时 |
+| T-072 | Genealogy 应用服务测试 | 2026-05-21 | Claude Code | 1h | - | genealogy_service_test.go，26 个测试全部通过 |
+
+| **已完成总计** | **56** 个任务，约 77.5 工时 |
 
 ---
 
@@ -101,7 +103,7 @@
 | 阶段六：其他管理功能 | 7 | 5 | 0 | 2 | 71% |
 | 阶段七：可视化前端 | 7 | 0 | 0 | 7 | 0% |
 | 阶段八：微信小程序 | 6 | 1 | 0 | 5 | 17% |
-| **总计** | **60** | **45** | **0** | **15** | **75%** |
+| **总计** | **60** | **46** | **0** | **14** | **77%** |
 
 ### 按优先级统计
 
@@ -157,6 +159,7 @@
 | 2026-05-21 | 完成 Audit 应用服务测试（T-069），包含 audit_service_test.go，10 个测试全部通过 | Claude Code |
 | 2026-05-21 | 完成 Community 应用服务测试（T-070），包含 community_service_test.go，16 个测试全部通过 | Claude Code |
 | 2026-05-21 | 完成 Person 应用服务测试（T-071），包含 person_service_test.go，22 个测试全部通过，修复 UpdatePerson 和 BatchUpdatePersons 空指针问题 | Claude Code |
+| 2026-05-21 | 完成 Genealogy 应用服务测试（T-072），包含 genealogy_service_test.go，26 个测试全部通过 | Claude Code |
 
 ---
 
