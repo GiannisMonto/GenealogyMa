@@ -51,7 +51,7 @@
 | T-063 | 权限管理页面 | 2026-05-21 | Claude Code | 1h | T003 | 权限管理页面 + 单元测试，6 个测试全部通过 |
 
 | T-DC1 | Cemetery 领域模块 | 2026-05-21 | Claude Code | 2h | - | entity、repository、service、单元测试，35 个实体测试全部通过 |
-| T-DC2 | Culture 领域模块 | 2026-05-21 | Claude Code | 2h | - | entity、repository、service、单元测试 |
+| T-DC2 | Culture 领域模块 | 2026-05-21 | Claude Code | 2h | - | entity、repository、service、单元测试，25 个测试全部通过 |
 | T-DC3 | Community 领域模块 | 2026-05-21 | Claude Code | 2h | - | entity、repository、service、单元测试 |
 | T-DC4 | Audit 领域模块 | 2026-05-21 | Claude Code | 1h | - | entity、repository、service、单元测试，6 个测试全部通过 |
 | T-DC5 | Cemetery 页面 | 2026-05-21 | Claude Code | 1h | - | Cemetery 页面 + 单元测试，6 个测试全部通过 |
@@ -175,6 +175,7 @@
 | 2026-05-21 | 完成 Config 应用服务测试（T-074），包含 config_service_test.go，26 个测试全部通过 | Claude Code |
 | 2026-05-21 | 完成 Backup API 控制器（T-083），包含 backup_controller.go + backup_controller_test.go，6 个测试全部通过 | Claude Code |
 | 2026-05-21 | 完成 Person 实体单元测试（T-084），包含 entity_test.go，常量验证、代际边界测试，4 个测试全部通过 | Claude Code |
+| 2026-05-21 | 完成 Culture 实体单元测试（T-DC2），包含 entity_test.go，常量验证、实体验证测试，25 个测试全部通过 | Claude Code |
 | 2026-05-21 | 完成 Memorial 管理页面（T-085），包含 Memorial 页面、API 客户端、单元测试，6 个测试全部通过 | Claude Code |
 
 ---
