@@ -103,7 +103,9 @@
 | T-090 | Genealogy 实体单元测试 | 2026-05-21 | Claude Code | 0.5h | - | `entity_test.go`，20 个测试全部通过 |
 | T-091 | 备份管理页面 | 2026-05-21 | Claude Code | 1h | T-DC11 | 备份管理页面 + API客户端 + 单元测试，8 个测试全部通过 |
 
-| **已完成总计** | **67** 个任务，约 86.5 工时 |
+| T-092 | 数据导出服务 | 2026-05-21 | Claude Code | 1h | T-067 | export_service.go + export_service_test.go，16 个测试全部通过 |
+
+| **已完成总计** | **68** 个任务，约 87.5 工时 |
 
 ---
 
@@ -191,6 +193,7 @@
 | 2026-05-21 | 完成 Community 实体单元测试（T-088），包含 entity_test.go，16 个测试全部通过 |
 | 2026-05-21 | 完成 Config 实体单元测试（T-089），包含 entity_test.go，11 个测试全部通过 |
 | 2026-05-21 | 完成 Genealogy 实体单元测试（T-090），包含 entity_test.go，20 个测试全部通过 | Claude Code |
+| 2026-05-21 | 完成数据导出服务（T-092），包含 export_service.go + export_service_test.go，16 个测试全部通过 | Claude Code |
 
 ---
 
