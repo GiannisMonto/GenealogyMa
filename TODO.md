@@ -208,6 +208,7 @@
 | 2026-05-21 | 完成族谱树搜索定位组件（T-094），包含 SearchPanel 组件 + 单元测试，17 个测试全部通过 | Claude Code |
 | 2026-05-21 | 完成 PersonDetail 页面单元测试（T-095），包含 PersonDetail.test.ts，10 个测试全部通过 | Claude Code |
 | 2026-05-21 | 完成世代分布统计页面（T-096），包含 Statistics.vue + Statistics.test.ts，14 个测试全部通过 | Claude Code |
+| 2026-05-21 | 完成 ForgotPassword 页面单元测试，7 个测试全部通过 | Claude Code |
 
 ---
 
