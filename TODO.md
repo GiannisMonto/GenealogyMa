@@ -79,7 +79,9 @@
 
 | T-069 | Audit 应用服务测试 | 2026-05-21 | Claude Code | 1h | T-DC4 | audit_service_test.go，10 个测试全部通过 |
 
-| **已完成总计** | **53** 个任务，约 74.5 工时 |
+| T-070 | Community 应用服务测试 | 2026-05-21 | Claude Code | 1h | T-DC3 | community_service_test.go，16 个测试全部通过 |
+
+| **已完成总计** | **54** 个任务，约 75.5 工时 |
 
 ---
 
@@ -151,6 +153,7 @@
 | 2026-05-21 | 完成 Memorial 领域模块 + API（T-066），包含 entity、repository、service、应用服务、HTTP 控制器、单元测试，22 个测试全部通过 | Claude Code |
 | 2026-05-21 | 完成 Cemetery 应用服务测试（T-068），包含 cemetery_service_test.go，21 个测试全部通过 | Claude Code |
 | 2026-05-21 | 完成 Audit 应用服务测试（T-069），包含 audit_service_test.go，10 个测试全部通过 | Claude Code |
+| 2026-05-21 | 完成 Community 应用服务测试（T-070），包含 community_service_test.go，16 个测试全部通过 | Claude Code |
 
 ---
 
