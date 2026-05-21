@@ -2,8 +2,8 @@
 
 > **最后更新**: 2026-05-21
 > **进行中任务数**: 0
-> **待开始任务数**: 0
-> **状态**: 🔄 开发中（58/60 任务已完成，97%）
+> **待开始任务数**: 1
+> **状态**: 🔄 开发中（59/60 任务已完成，98%）
 
 ---
 
@@ -50,7 +50,7 @@
 | T-062 | 审计日志页面 | 2026-05-21 | Claude Code | 1h | T004, T007 | 审计日志页面 + 单元测试，6 个测试全部通过 |
 | T-063 | 权限管理页面 | 2026-05-21 | Claude Code | 1h | T003 | 权限管理页面 + 单元测试，6 个测试全部通过 |
 
-| T-DC1 | Cemetery 领域模块 | 2026-05-21 | Claude Code | 2h | - | entity、repository、service、单元测试 |
+| T-DC1 | Cemetery 领域模块 | 2026-05-21 | Claude Code | 2h | - | entity、repository、service、单元测试，35 个实体测试全部通过 |
 | T-DC2 | Culture 领域模块 | 2026-05-21 | Claude Code | 2h | - | entity、repository、service、单元测试 |
 | T-DC3 | Community 领域模块 | 2026-05-21 | Claude Code | 2h | - | entity、repository、service、单元测试 |
 | T-DC4 | Audit 领域模块 | 2026-05-21 | Claude Code | 1h | - | entity、repository、service、单元测试，6 个测试全部通过 |
@@ -89,7 +89,9 @@
 
 | T-074 | Config 应用服务测试 | 2026-05-21 | Claude Code | 1h | T-064 | config_service_test.go，26 个测试全部通过 |
 
-| **已完成总计** | **58** 个任务，约 79.5 工时 |
+| T-083 | Backup API 控制器 | 2026-05-21 | Claude Code | 1h | T-DC11 | backup_controller.go + backup_controller_test.go，6 个测试全部通过 |
+
+| **已完成总计** | **59** 个任务，约 80.5 工时 |
 
 ---
 
@@ -104,10 +106,10 @@
 | 阶段三：数据查看与可视化 | 7 | 1 | 0 | 6 | 14% |
 | 阶段四：数据勘误与补充 | 9 | 2 | 0 | 7 | 22% |
 | 阶段五：权限管理界面 | 5 | 2 | 0 | 3 | 40% |
-| 阶段六：其他管理功能 | 7 | 5 | 0 | 2 | 71% |
+| 阶段六：其他管理功能 | 7 | 6 | 0 | 1 | 86% |
 | 阶段七：可视化前端 | 7 | 0 | 0 | 7 | 0% |
 | 阶段八：微信小程序 | 6 | 1 | 0 | 5 | 17% |
-| **总计** | **60** | **58** | **0** | **2** | **97%** |
+| **总计** | **60** | **59** | **0** | **1** | **98%** |
 
 ### 按优先级统计
 
@@ -159,6 +161,7 @@
 | 2026-05-21 | 完成配置管理 API（T-064），包含 config 领域模块、应用服务、仓储实现、HTTP 控制器、数据库迁移、单元测试，20+ 个测试全部通过 |
 | 2026-05-21 | 完成 Genealogy 领域模块 + API（T-065），包含 entity、repository、service、应用服务、HTTP 控制器、仓储实现、单元测试，26 个测试全部通过 | Claude Code |
 | 2026-05-21 | 完成 Memorial 领域模块 + API（T-066），包含 entity、repository、service、应用服务、HTTP 控制器、单元测试，22 个测试全部通过 | Claude Code |
+| 2026-05-21 | 完成 Cemetery 实体单元测试（entity_test.go），35 个测试全部通过，修复 HasAvailableSpace 零容量的边界问题 | Claude Code |
 | 2026-05-21 | 完成 Cemetery 应用服务测试（T-068），包含 cemetery_service_test.go，21 个测试全部通过 | Claude Code |
 | 2026-05-21 | 完成 Audit 应用服务测试（T-069），包含 audit_service_test.go，10 个测试全部通过 | Claude Code |
 | 2026-05-21 | 完成 Community 应用服务测试（T-070），包含 community_service_test.go，16 个测试全部通过 | Claude Code |
@@ -166,6 +169,7 @@
 | 2026-05-21 | 完成 Genealogy 应用服务测试（T-072），包含 genealogy_service_test.go，26 个测试全部通过 | Claude Code |
 | 2026-05-21 | 完成 Memorial 应用服务测试（T-073），包含 memorial_service_test.go，20 个测试全部通过 | Claude Code |
 | 2026-05-21 | 完成 Config 应用服务测试（T-074），包含 config_service_test.go，26 个测试全部通过 | Claude Code |
+| 2026-05-21 | 完成 Backup API 控制器（T-083），包含 backup_controller.go + backup_controller_test.go，6 个测试全部通过 | Claude Code |
 
 ---
 
