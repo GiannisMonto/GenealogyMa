@@ -12,6 +12,7 @@ import {
   LogoutOutlined,
   SettingOutlined,
   BankOutlined,
+  BookOutlined,
 } from '@ant-design/icons';
 import type { MenuProps } from 'antd';
 import { useAuthStore } from '@/store/auth';

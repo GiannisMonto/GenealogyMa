@@ -253,3 +253,54 @@ export interface GraveDTO {
   created_at: string;
   updated_at: string;
 }
+
+/**
+ * 文献 DTO
+ */
+export interface DocumentDTO {
+  id: number;
+  title: string;
+  content: string;
+  category: 'classic' | 'genealogy' | 'memorial' | 'history';
+  author: string;
+  created_year: number | null;
+  dynasty: string;
+  source: string;
+  image_urls: string[];
+  view_count: number;
+  collect_count: number;
+  created_at: string;
+  updated_at: string;
+}
+
+/**
+ * 故事 DTO
+ */
+export interface StoryDTO {
+  id: number;
+  title: string;
+  content: string;
+  era: string;
+  category: string;
+  tags: string[];
+  audio_url: string;
+  image_url: string;
+  view_count: number;
+  created_at: string;
+  updated_at: string;
+}
+
+/**
+ * 家训 DTO
+ */
+export interface FamilyTeachingsDTO {
+  id: number;
+  title: string;
+  content: string;
+  generation: number;
+  origin_text: string;
+  meaning: string;
+  usage_count: number;
+  created_at: string;
+  updated_at: string;
+}
