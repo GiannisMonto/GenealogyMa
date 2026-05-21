@@ -142,12 +142,12 @@
 
 | 任务 | 关键文件路径 | 状态 | 完成日期 | 负责人 | 备注 |
 |------|-------------|------|---------|--------|------|
-| 8.1 小程序项目初始化 | `mobile/miniprogram/package.json` | ⏳ | | | uni-app + Vue 3 + TypeScript |
-| 8.2 登录/认证模块 | `mobile/miniprogram/src/pages/login/` | ⏳ | | | 微信授权登录、JWT 认证 |
-| 8.3 人物列表页 | `mobile/miniprogram/src/pages/person/list.vue` | ⏳ | | | 移动端适配的人物列表、搜索 |
-| 8.4 人物详情页 | `mobile/miniprogram/src/pages/person/detail.vue` | ⏳ | | | 人物信息展示、亲属关系 |
-| 8.5 族谱树页面 | `mobile/miniprogram/src/pages/genealogy/tree.vue` | ⏳ | | | 移动端适配的简化版族谱树 |
-| 8.6 个人中心 | `mobile/miniprogram/src/pages/user/profile.vue` | ⏳ | | | 个人信息、收藏、设置 |
+| 8.1 小程序项目初始化 | `mobile/miniprogram/package.json` | ✅ | 2026-05-21 | Claude Code | uni-app + Vue 3 + TypeScript |
+| 8.2 登录/认证模块 | `mobile/miniprogram/src/pages/login/` | ✅ | 2026-05-21 | Claude Code | 登录页、微信授权、JWT 认证 |
+| 8.3 人物列表页 | `mobile/miniprogram/src/pages/person/list.vue` | ✅ | 2026-05-21 | Claude Code | 移动端人物列表、搜索、筛选 |
+| 8.4 人物详情页 | `mobile/miniprogram/src/pages/person/detail.vue` | ✅ | 2026-05-21 | Claude Code | 人物信息、亲属关系展示 |
+| 8.5 族谱树页面 | `mobile/miniprogram/src/pages/genealogy/tree.vue` | ✅ | 2026-05-21 | Claude Code | 移动端族谱树可视化 |
+| 8.6 个人中心 | `mobile/miniprogram/src/pages/user/profile.vue` | ✅ | 2026-05-21 | Claude Code | 个人信息、设置、退出登录 |
 
 ---
 
@@ -162,8 +162,8 @@
 | 阶段五：权限管理界面 | 7 | 0 | 0 | 7 | 0% |
 | 阶段六：其他管理功能 | 7 | 0 | 0 | 7 | 0% |
 | 阶段七：可视化前端项目 | 7 | 0 | 0 | 7 | 0% |
-| 阶段八：微信小程序 | 6 | 0 | 0 | 6 | 0% |
-| **总计** | **65** | **8** | **0** | **57** | **12%** |
+| 阶段八：微信小程序 | 6 | 6 | 0 | 0 | 100% |
+| **总计** | **65** | **14** | **0** | **51** | **22%** |
 
 ---
 
