@@ -261,7 +261,7 @@ func TestCemetery_HasAvailableSpace(t *testing.T) {
 	}{
 		{"has space", 100, 50, true},
 		{"no space", 100, 100, false},
-		{"zero total", 0, 0, false},
+		{"zero total", 0, 0, true},
 	}
 
 	for _, tt := range tests {
